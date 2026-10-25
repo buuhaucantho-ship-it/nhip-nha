@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Nhịp Nhà – công cụ giúp học sinh nội trú và gia đình nhận ra nhịp trò chuyện của nhà mình và cùng chỉnh lại qua hành trình CHẠM 4 tuần.">
+<meta name="theme-color" content="#E9DCCB">
+<meta property="og:title" content="Nhịp Nhà">
+<meta property="og:description" content="Mỗi nhịp chạm, thêm một nhịp thương. Không cần thay đổi tất cả trong một ngày, chỉ cần mỗi ngày hiểu nhau thêm một chút.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Nhịp Nhà</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+/* Layout: ứng dụng một cột kiểu điện thoại (tối đa 640px), thanh tab cố định dưới đáy; mỗi khu vực một màu pastel như bản phác của nhóm */
+:root{
+  --bg:#E9DCCB; --glow:#F3E8DA; --surface:#FFF9F2; --ink:#3B2F27; --muted:#65554A; --line:#E3D2BF; --on:#FFFFFF;
+  --brand:#D4513F; --brand-s:#FFD8CC;
+  --pink:#CC4479;  --pink-s:#FFD5E6;
+  --violet:#7457D3; --violet-s:#E2D8FF;
+  --yellow:#A86E00; --yellow-s:#FFE7A8;
+  --blue:#2B78BD;  --blue-s:#CDE5FF;
+  --peach:#C95E1F; --peach-s:#FFDBBC;
+  --l1:#2F87CC; --l2:#D99A0F; --l3:#E56F2E; --l4:#D2435A;
+  --f-display:"Baloo 2","Nunito","Segoe UI",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  --r:22px;
+  --sheen:rgba(255,255,255,.55); --sky1:#FFE4D2; --sky2:#FFF4E6; --sun:#FFC85C; --wall:#FFF6EA; --wall-line:#E7C9A8; --roof:#E2674F; --roof-d:#B9472F; --door:#C46A3E; --win-on:#FFD56B; --win-off:#EBDCCB; --ground:#E5CBA8; --path:#D7B48C; --smoke:#FFFFFF; --lift:0 14px 30px rgba(120,70,40,.16),0 3px 8px rgba(120,70,40,.08);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211A15; --glow:#2E241D; --surface:#2B231D; --ink:#F4ECE2; --muted:#C2B1A2; --line:#40352C; --on:#211A15;
+  --brand:#FF8C7A; --brand-s:#4A2620; --pink:#F59BBE; --pink-s:#45233A; --violet:#B9A3FF; --violet-s:#2F2750;
+  --yellow:#FFC861; --yellow-s:#463613; --blue:#8CC4F5; --blue-s:#1E3448; --peach:#FFA772; --peach-s:#4A2C18;
+  --l1:#8CC4F5; --l2:#FFC861; --l3:#FFA772; --l4:#FF8A9A; --sheen:rgba(255,255,255,.06); --sky1:#3A2C3A; --sky2:#2B231D; --sun:#F3D98A; --wall:#40342B; --wall-line:#5E4B3C; --roof:#D9654F; --roof-d:#A9473A; --door:#9E5A38; --win-on:#FFD56B; --win-off:#54463A; --ground:#3A2E24; --path:#4C3C2E; --smoke:#CDBFB2; --lift:0 14px 30px rgba(0,0,0,.45),0 3px 8px rgba(0,0,0,.3); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#211A15; --glow:#2E241D; --surface:#2B231D; --ink:#F4ECE2; --muted:#C2B1A2; --line:#40352C; --on:#211A15;
+  --brand:#FF8C7A; --brand-s:#4A2620; --pink:#F59BBE; --pink-s:#45233A; --violet:#B9A3FF; --violet-s:#2F2750;
+  --yellow:#FFC861; --yellow-s:#463613; --blue:#8CC4F5; --blue-s:#1E3448; --peach:#FFA772; --peach-s:#4A2C18;
+  --l1:#8CC4F5; --l2:#FFC861; --l3:#FFA772; --l4:#FF8A9A; --sheen:rgba(255,255,255,.06); --sky1:#3A2C3A; --sky2:#2B231D; --sun:#F3D98A; --wall:#40342B; --wall-line:#5E4B3C; --roof:#D9654F; --roof-d:#A9473A; --door:#9E5A38; --win-on:#FFD56B; --win-off:#54463A; --ground:#3A2E24; --path:#4C3C2E; --smoke:#CDBFB2; --lift:0 14px 30px rgba(0,0,0,.45),0 3px 8px rgba(0,0,0,.3); color-scheme:dark}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{background-color:var(--on);background-image:radial-gradient(ellipse 70% 38% at 50% 0%,var(--glow),transparent 75%);background-attachment:fixed;min-height:100vh;color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.6}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance;font-weight:700}
+h1{font-size:2.3rem;font-weight:800}
+h2{font-size:1.55rem}
+h3{font-size:1.15rem}
+p{margin:0}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.app{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:18px 120px;display:grid;gap:18px}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.eyebrow{font-size:.74rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;color:var(--brand)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.stack{display:grid;gap:10px}
+.ic{width:22px;height:22px;flex:none}
+
+/* top */
+.top{display:flex;align-items:center;gap:12px}
+.back{border:0;background:var(--surface);width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.top h2{flex:1;min-width:0}
+.hearts{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-variant-numeric:tabular-nums;background:var(--pink-s);color:var(--pink);padding:4px 10px;border-radius:999px;font-size:.9rem;border:0}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:0 1px 2px rgba(90,60,30,.05),0 6px 18px rgba(90,60,30,.05);display:grid;gap:10px;min-width:0}
+.tint{border:0;box-shadow:0 2px 6px rgba(120,70,40,.06)}
+.t-brand{background:var(--brand-s)} .t-pink{background:var(--pink-s)} .t-violet{background:var(--violet-s)}
+.t-yellow{background:var(--yellow-s)} .t-blue{background:var(--blue-s)} .t-peach{background:var(--peach-s)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{border:0;text-align:left;border-radius:var(--r);padding:16px;display:grid;gap:4px;align-content:start;min-height:120px}
+.tile .ic{width:26px;height:26px;margin-bottom:4px}
+.tile b{font-family:var(--f-display);font-size:1.15rem;line-height:1.2}
+.tile span{font-size:.86rem;color:var(--muted)}
+.tile.wide{grid-column:1/-1;min-height:0;grid-template-columns:auto 1fr auto;align-items:center;column-gap:12px}
+.tile.wide .ic{margin:0}
+.chev{color:var(--muted);font-size:1.4rem}
+
+.btn{border:2px solid var(--brand);background:var(--brand);color:var(--on);padding:12px 20px;border-radius:999px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn.quiet{border-color:var(--line);background:var(--surface);color:var(--ink)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.danger{border-color:var(--l4);background:transparent;color:var(--l4)}
+.link{border:0;background:none;color:var(--brand);font-weight:600;padding:0;text-decoration:underline;text-underline-offset:3px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:999px;font-size:.92rem;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--on);border-color:var(--brand)}
+.track{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.track i{display:block;height:100%;border-radius:999px;background:var(--brand);transition:width .35s}
+input[type=text],textarea{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;font-size:1rem}
+textarea{min-height:110px;resize:vertical}
+label.lbl{font-weight:600;font-size:.92rem}
+.note{font-size:.86rem;color:var(--muted);border-left:3px solid var(--yellow);padding-left:12px}
+
+/* welcome */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-top:24px}
+.logo{width:76px;height:76px;border-radius:24px;background:var(--brand-s);display:grid;place-items:center}
+.logo svg{width:46px;height:46px}
+.tagline{font-family:var(--f-display);font-size:1.3rem;color:var(--brand);font-weight:600}
+.core{font-family:var(--f-display);font-size:1.2rem;line-height:1.35}
+.role{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;text-align:left;border-radius:var(--r);padding:18px;border:2px solid transparent}
+.role .av{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--surface)}
+.role .av svg{width:30px;height:30px}
+.role b{font-family:var(--f-display);font-size:1.2rem;display:block;line-height:1.2}
+.role span{font-size:.9rem;color:var(--muted)}
+.avatars{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.avatar{aspect-ratio:1;border-radius:50%;border:2px solid var(--line);background:var(--surface);font-size:1.6rem;display:grid;place-items:center;max-width:100%}
+.avatar[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-s)}
+.priv{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.priv .ic{color:var(--brand);margin-top:2px}
+
+/* survey */
+.sv-q{font-family:var(--f-display);font-size:1.45rem;font-weight:600;line-height:1.3;min-height:3.8em}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 14px;min-height:56px}
+.opt b{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-family:var(--f-display);font-size:1.1rem}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-s)}
+.opt[aria-pressed="true"] b{background:var(--brand);color:var(--on)}
+.sv-nav{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* result */
+.lvbadge{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.85rem;padding:4px 12px;border-radius:999px;background:var(--surface)}
+.lvbadge i{width:10px;height:10px;border-radius:50%}
+.lvname{font-family:var(--f-display);font-size:2.6rem;font-weight:800;line-height:1}
+.wave{display:block;width:100%;height:90px}
+.wave path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.scale4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.scale4 div{display:grid;gap:4px;font-size:.76rem;color:var(--muted)}
+.scale4 i{height:8px;border-radius:999px;opacity:.3}
+.scale4 .on i{opacity:1}
+.scale4 .on{color:var(--ink);font-weight:600}
+.dim{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:.92rem}
+.dim b{text-align:right;font-variant-numeric:tabular-nums}
+.list{margin:0;padding-left:20px;display:grid;gap:4px}
+.alert{border:2px solid var(--l4);border-radius:var(--r);padding:16px;display:grid;gap:8px;background:var(--surface)}
+.alert h3{color:var(--l4)}
+
+/* journey */
+.weeks{display:grid;gap:10px}
+.wk{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:12px 14px}
+.wk .let{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-family:var(--f-display);font-size:1.8rem;font-weight:800}
+.wk small{display:block;color:var(--muted);font-size:.8rem}
+.wk b{font-family:var(--f-display);font-size:1.1rem;line-height:1.2}
+.wk .st{font-size:.78rem;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.st-done{background:var(--brand-s);color:var(--brand)}
+.st-now{background:var(--yellow-s);color:var(--yellow)}
+.st-open{background:var(--bg);color:var(--muted)}
+.L-C{background:var(--brand-s);color:var(--brand)} .L-H{background:var(--pink-s);color:var(--pink)}
+.L-A{background:var(--violet-s);color:var(--violet)} .L-M{background:var(--yellow-s);color:var(--yellow)}
+.step{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px;border-radius:16px;background:var(--bg)}
+.step .box{width:30px;height:30px;border-radius:9px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;margin-top:2px}
+.step[data-on="1"] .box{background:var(--brand);border-color:var(--brand);color:var(--on)}
+.step b{display:block}
+.step p{font-size:.93rem;color:var(--muted)}
+.step .tag{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:middle}
+.step .go{margin-top:6px}
+.tips{margin:0;padding-left:20px;display:grid;gap:4px;font-size:.92rem}
+.dishrow{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
+
+/* meal */
+.tray{position:relative;border-radius:50%;aspect-ratio:1;max-width:340px;width:100%;margin:0 auto;background:radial-gradient(circle at 50% 50%,var(--surface) 0 58%,var(--yellow-s) 58% 100%);border:3px solid var(--yellow-s);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;padding:16%;gap:6%}
+.plate{display:grid;justify-items:center;align-content:center;gap:2px;text-align:center;font-size:.78rem;line-height:1.2;font-weight:600}
+.plate svg{width:100%;max-width:84px;height:auto}
+.plate.lock{color:var(--muted);font-weight:500}
+.badge{width:120px;height:120px;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:var(--violet-s);color:var(--violet);border:4px dashed var(--violet)}
+.badge.on{border-style:solid;background:var(--violet);color:var(--on)}
+.badge svg{width:56px;height:56px}
+
+/* garden */
+.pet svg,.tree svg{width:100%;max-width:200px;height:auto;display:block;margin:0 auto}
+.swatch{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.swatch[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+@keyframes float{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-40px);opacity:0}}
+.pop{position:absolute;left:50%;top:30%;font-size:1.6rem;color:var(--pink);animation:float 1s ease-out forwards;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.pop{animation:none;opacity:0}.track i{transition:none}}
+
+/* diary & moments */
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tabs .chip{white-space:nowrap}
+.entry{display:grid;gap:6px;padding:14px;border-radius:16px;background:var(--bg)}
+.entry .meta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted)}
+.entry p{white-space:pre-wrap;overflow-wrap:anywhere}
+.mini{border:0;background:none;color:var(--muted);font-size:.82rem;text-decoration:underline;padding:0}
+.photo{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:start}
+.photo img{width:96px;height:96px;object-fit:cover;border-radius:14px;display:block}
+.photo .ph{width:96px;height:96px;border-radius:14px;background:var(--bg);display:grid;place-items:center;color:var(--muted);font-size:.75rem;text-align:center;padding:6px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.toggle:last-child{border-bottom:0}
+.sw{width:52px;height:30px;border-radius:999px;border:0;background:var(--line);position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);transition:left .2s}
+.sw[aria-checked="true"]{background:var(--brand)}
+.sw[aria-checked="true"]::after{left:25px}
+.hot{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hot .n{font-family:var(--f-display);font-size:2.4rem;font-weight:800;color:var(--pink);line-height:1;user-select:all}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.say{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.say div{padding:10px 12px;border-radius:12px;font-size:.9rem}
+.say .no{background:var(--bg);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--l4)}
+.say .yes{background:var(--brand-s)}
+details.art{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details.art summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+details.art summary::-webkit-details-marker{display:none}
+details.art summary b{font-family:var(--f-display);font-size:1.08rem}
+details.art .bd{padding:0 16px 16px;display:grid;gap:10px;font-size:.95rem}
+.opener{font-family:var(--f-display);font-size:1.3rem;line-height:1.35;font-weight:600}
+.flow{display:grid;gap:8px}
+.flow div{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start}
+.flow span{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--brand-s);color:var(--brand);font-family:var(--f-display);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--on);padding:10px 18px;border-radius:999px;font-size:.92rem;z-index:50;max-width:90vw;text-align:center}
+
+/* bottom nav */
+nav.bn{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);box-shadow:0 -4px 16px rgba(90,60,30,.06);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav.bn .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+nav.bn button{border:0;background:none;display:grid;justify-items:center;gap:2px;padding:4px 2px;font-size:.72rem;color:var(--muted);border-radius:14px}
+nav.bn .ib{width:44px;height:32px;border-radius:12px;display:grid;place-items:center}
+nav.bn button[aria-current="page"]{color:var(--ink);font-weight:600}
+nav.bn button[aria-current="page"] .ib{background:var(--brand-s);color:var(--brand)}
+
+
+/* pastel sheen + hover lift */
+.tint,.tile,.role,.t-brand,.t-pink,.t-violet,.t-yellow,.t-blue,.t-peach{background-image:linear-gradient(150deg,var(--sheen),transparent 62%)}
+.tile,.role,.wk,.item,.day,.btn,.chip,.opt,button.card,.avatar,.swatch,details.art summary{transition:transform .22s cubic-bezier(.2,.8,.3,1),box-shadow .22s ease,background-color .2s ease}
+.tile,.role,button.card,.wk,.item{box-shadow:0 2px 6px rgba(120,70,40,.07)}
+@media (hover:hover) and (pointer:fine){
+  .tile:hover,.role:hover,button.card:hover,.wk:hover,.item:not([disabled]):hover{transform:translateY(-5px);box-shadow:var(--lift)}
+  .btn:not([disabled]):hover,.chip:not([disabled]):hover,.opt:hover,.day:not([disabled]):hover,.avatar:hover,.swatch:hover{transform:translateY(-2px);box-shadow:var(--lift)}
+  .card:not(.tint):not(button){transition:box-shadow .22s ease}
+  .card:not(.tint):not(button):hover{box-shadow:0 8px 22px rgba(120,70,40,.10)}
+  nav.bn button:hover .ib{transform:translateY(-2px)}
+}
+.tile:active,.role:active,button.card:active,.wk:active,.item:active,.btn:active,.chip:active,.opt:active,.day:active{transform:scale(.98)}
+nav.bn .ib{transition:transform .2s ease}
+@media (prefers-reduced-motion:reduce){.tile,.role,.wk,.item,.day,.btn,.chip,.opt,button.card,.avatar,.swatch{transition:none}.tile:hover,.role:hover,button.card:hover,.wk:hover,.item:hover,.btn:hover,.chip:hover,.opt:hover,.day:hover{transform:none}}
+
+
+/* house */
+.house-card{background-image:linear-gradient(180deg,var(--sky1),var(--sky2) 70%);border:0;gap:12px}
+.house{width:100%;height:auto;display:block;overflow:visible}
+.house .smoke circle{fill:var(--smoke);animation:smoke 3.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.house .smoke circle:nth-child(2){animation-delay:1.05s}.house .smoke circle:nth-child(3){animation-delay:2.1s}
+@keyframes smoke{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:.85}100%{transform:translate(14px,-56px) scale(1.7);opacity:0}}
+.hot-spot{cursor:pointer;transition:transform .25s ease;transform-box:fill-box;transform-origin:bottom center}
+@media (hover:hover){.hot-spot:hover{transform:translateY(-4px) scale(1.03)}}
+.hot-spot:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.legend{display:flex;gap:8px 16px;flex-wrap:wrap;font-size:.86rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+@media (prefers-reduced-motion:reduce){.house .smoke circle{animation:none;opacity:.6}.hot-spot{transition:none}}
+
+
+nav.bn[hidden]{display:none!important}
+/* survey v3 */
+.sv-head{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:5}
+.legend5{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted)}
+.legend5 b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--brand-s);color:var(--brand);font-size:.78rem;margin-right:2px}
+.qcard{gap:12px}
+.qtext{font-weight:500;font-size:1.02rem;display:flex;gap:10px}
+.qn{flex:none;min-width:30px;height:30px;padding:0 6px;border-radius:10px;display:grid;place-items:center;background:var(--bg);font-family:var(--f-display);color:var(--muted)}
+.opts5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.o5{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 4px;display:grid;justify-items:center;gap:4px;text-align:center;font-size:.72rem;line-height:1.2;color:var(--muted);min-height:64px}
+.o5 b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-family:var(--f-display);font-size:1rem;color:var(--ink)}
+.o5[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-s);color:var(--ink)}
+.o5[aria-pressed="true"] b{background:var(--brand);color:var(--on)}
+.cmp{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.cmp div{display:flex;justify-content:space-between;gap:8px;background:var(--surface);border-radius:12px;padding:8px 12px;font-size:.92rem}
+.n111{font-family:var(--f-display);font-size:1.8rem;font-weight:800;color:var(--l4);user-select:all}
+.foot{display:flex;gap:10px;align-items:center;justify-content:center;font-size:.86rem;color:var(--muted);padding-top:8px;border-top:1px dashed var(--line);text-align:left}
+.foot b{color:var(--l4);font-size:1.05rem}
+details.why summary{cursor:pointer;font-size:.84rem;color:var(--brand);font-weight:600;margin-top:6px}
+@media (max-width:420px){.o5 span{font-size:.62rem}.o5{min-height:72px;padding:6px 2px}}
+
+/* daily habit */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 2px;display:grid;justify-items:center;gap:2px;font-size:.72rem;color:var(--muted);min-height:64px}
+.day b{font-family:var(--f-display);font-size:1.05rem;color:var(--ink);line-height:1}
+.day .dot{width:22px;height:22px;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center}
+.day[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-s)}
+.day[aria-pressed="true"] .dot{border:0;background:var(--brand);color:var(--on)}
+.day[aria-pressed="true"] .dot svg{width:14px;height:14px}
+.day.today{border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow-s)}
+.day[aria-pressed="true"].today{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-s)}
+.day[disabled]{opacity:.45;cursor:not-allowed}
+.bigcheck{min-height:58px;font-size:1.05rem}
+.streak{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:.9rem;color:var(--peach)}
+.shop{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.item{border:2px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 6px;display:grid;justify-items:center;gap:4px;text-align:center;font-size:.82rem;min-width:0}
+.item svg{width:64px;height:62px}
+.item b{font-size:.88rem}
+.item[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-s)}
+.item.locked{color:var(--muted)}
+.item.locked svg{filter:grayscale(1);opacity:.45}
+.cost{font-size:.76rem;font-weight:600;color:var(--pink);display:inline-flex;align-items:center;gap:4px}
+.item .cost svg{width:14px;height:14px;filter:none;opacity:1}
+.g2{display:grid;gap:18px;align-content:start}
+.g2>*{min-width:0}
+.col{display:grid;gap:18px;align-content:start;min-width:0}
+.brand{display:none}
+
+/* desktop */
+@media (min-width:960px){
+  html{font-size:17px}
+  body.has-nav{padding-left:260px}
+  .app{max-width:1120px;padding-inline:40px;padding-block:36px 64px;gap:22px}
+  .app.narrow{max-width:760px}
+  h1{font-size:2.8rem} h2{font-size:1.8rem}
+  nav.bn{top:0;right:auto;width:260px;border-top:0;border-right:1px solid var(--line);padding:28px 16px;display:flex;flex-direction:column;gap:20px}
+  nav.bn .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1.5rem;padding:0 10px}
+  nav.bn .brand span{width:44px;height:44px;border-radius:14px;background:var(--brand-s);display:grid;place-items:center}
+  nav.bn .brand svg{width:28px;height:28px}
+  nav.bn .in{grid-template-columns:1fr;gap:4px;margin:0;max-width:none}
+  nav.bn button{grid-template-columns:auto 1fr;justify-items:start;align-items:center;gap:12px;font-size:1rem;padding:6px 8px;text-align:left}
+  nav.bn button:hover{background:var(--bg)}
+  nav.bn .ib{width:44px;height:40px}
+  nav.bn .side-note{margin-top:auto;font-size:.82rem;color:var(--muted);padding:0 10px;line-height:1.5}
+  .toast{bottom:32px;left:calc(50% + 130px)}
+  .g2{grid-template-columns:1fr 1fr;align-items:start}
+  .g2.wide-l{grid-template-columns:3fr 2fr}
+  .tiles{grid-template-columns:repeat(4,1fr)}
+  .tile.wide{grid-column:span 2}
+  .weeks{grid-template-columns:1fr 1fr}
+  .shop{grid-template-columns:repeat(3,1fr)}
+  .days{gap:10px}
+  .day{min-height:78px;font-size:.8rem}
+  .hero{padding-top:56px}
+  .roles2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .tray{max-width:420px}
+  .pet svg,.tree svg{max-width:240px}
+  .sv-q{font-size:1.7rem}
+}
+@media (max-width:420px){
+  h1{font-size:2rem}
+  .dim{grid-template-columns:1fr 36px}
+  .dim .track{grid-column:1/-1;grid-row:2}
+  .say{grid-template-columns:1fr}
+  .avatars{grid-template-columns:repeat(4,1fr)}
+  .photo{grid-template-columns:76px 1fr}
+  .photo img,.photo .ph{width:76px;height:76px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app" aria-live="polite"></div>
+<nav class="bn" id="bn" aria-label="Điều hướng chính" hidden><div class="brand" id="bn-brand"></div><div class="in" id="bn-in"></div><p class="side-note brand" style="display:none"></p></nav>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+/* =========================================================
+   DỮ LIỆU NỘI DUNG — sửa chữ ở đây, không cần đụng phần xử lý
+   ========================================================= */
+// ===== BẢNG HỎI BẢN 3 (giữ nguyên văn bản đã khảo sát — đổi chữ là phiên bản mới, cần kiểm tra lại) =====
+const QVER="cham-v2-ban3";
+const SCALE5=["Hoàn toàn không đúng","Không đúng lắm","Nửa đúng nửa sai","Khá đúng","Hoàn toàn đúng"];
+// Bốn thang: OP Cởi mở (đảo khi tính CRI) · AV Né tránh · DS Chủ động kể (đảo) · BR Rào cản
+const SCALES={
+ OP:{n:"Cởi mở",show:"Chưa cởi mở",rev:true,need:5},
+ AV:{n:"Né tránh",show:"Né tránh",rev:false,need:5},
+ DS:{n:"Chủ động kể",show:"Chưa chủ động kể",rev:true,need:4},
+ BR:{n:"Rào cản",show:"Rào cản",rev:false,need:5}
+};
+const ITEMS=[
+ {c:"OP1",hs:"Bạn có thể nói với cha mẹ điều bạn thật sự nghĩ, kể cả khi cha mẹ có thể không đồng ý.",ph:"Con nói với tôi điều con thật sự nghĩ, kể cả khi con biết tôi có thể không đồng ý."},
+ {c:"OP2",hs:"Cha mẹ lắng nghe bạn đến hết ý trước khi nhận xét.",ph:"Tôi lắng nghe con đến hết ý trước khi nhận xét."},
+ {c:"OP3",hs:"Khi bạn nói, bạn cảm thấy cha mẹ thật sự quan tâm đến điều bạn nói.",ph:"Khi con nói, tôi thật sự quan tâm đến điều con nói."},
+ {c:"OP4",hs:"Bạn có thể hỏi cha mẹ những chuyện khó nói (ví dụ tình cảm, tiền bạc, sức khỏe) mà không thấy ngại.",ph:"Con hỏi tôi cả những chuyện khó nói (ví dụ tình cảm, tiền bạc, sức khỏe) mà không thấy ngại."},
+ {c:"OP5",hs:"Khi không đồng ý với bạn, cha mẹ giải thích lý do thay vì chỉ ra lệnh.",ph:"Khi không đồng ý với con, tôi giải thích lý do thay vì chỉ ra lệnh."},
+ {c:"OP6",hs:"Sau mỗi lần trò chuyện, bạn hiểu cha mẹ mong muốn điều gì ở bạn.",ph:"Sau mỗi lần trò chuyện, con hiểu tôi mong muốn điều gì ở con."},
+ {c:"AV1",hs:"Bạn tránh nói về chuyện riêng của mình với cha mẹ.",ph:"Con tránh nói về chuyện riêng của con với tôi."},
+ {c:"AV2",hs:"Có những chuyện quan trọng đối với bạn mà cha mẹ không biết vì bạn không nói.",ph:"Có những chuyện quan trọng đối với con mà tôi không biết vì con không nói."},
+ {c:"AV3",hs:"Khi cha mẹ hỏi chuyện, bạn chỉ trả lời ngắn cho xong.",ph:"Khi tôi hỏi chuyện, con chỉ trả lời ngắn cho xong."},
+ {c:"AV4",hs:"Khi cha mẹ gọi hoặc nhắn, bạn tìm cách kết thúc cuộc nói chuyện sớm.",ph:"Khi tôi gọi hoặc nhắn, con tìm cách kết thúc cuộc nói chuyện sớm."},
+ {c:"AV5",hs:"Bạn nói điều cha mẹ muốn nghe thay vì điều bạn nghĩ.",ph:"Con nói điều tôi muốn nghe thay vì điều con nghĩ."},
+ {c:"AV6",hs:"Khi có chuyện buồn, bạn chọn tâm sự với người khác (bạn bè, thầy cô, mạng xã hội) thay vì cha mẹ.",ph:"Khi có chuyện buồn, con chọn tâm sự với người khác (bạn bè, thầy cô, mạng xã hội) thay vì với tôi."},
+ {c:"DS1",hs:"Bạn chủ động kể cho cha mẹ về chuyện học tập ở trường.",ph:"Con chủ động kể cho tôi về chuyện học tập ở trường."},
+ {c:"DS2",hs:"Bạn chủ động kể cho cha mẹ về bạn bè của bạn.",ph:"Con chủ động kể cho tôi về bạn bè của con."},
+ {c:"DS3",hs:"Bạn chủ động kể cho cha mẹ khi bạn gặp khó khăn hoặc lo lắng.",ph:"Con chủ động kể cho tôi khi con gặp khó khăn hoặc lo lắng."},
+ {c:"DS4",hs:"Bạn báo cho cha mẹ biết về kế hoạch hoặc quyết định quan trọng trước khi thực hiện.",ph:"Con báo cho tôi biết về kế hoạch hoặc quyết định quan trọng trước khi thực hiện."},
+ {c:"DS5",hs:"Cha mẹ không cần hỏi nhiều, bạn vẫn kể chuyện.",ph:"Tôi không cần hỏi nhiều, con vẫn kể chuyện."},
+ {c:"BR1",hs:"Bạn và cha mẹ ít có thời gian rảnh cùng lúc để nói chuyện.",ph:"Tôi và con ít có thời gian rảnh cùng lúc để nói chuyện."},
+ {c:"BR2",hs:"Khi nói chuyện, cha mẹ hay chỉ trích bạn.",ph:"Khi nói chuyện, tôi hay chỉ trích con."},
+ {c:"BR3",hs:"Bạn cảm thấy cha mẹ chưa hiểu áp lực mà bạn đang chịu.",ph:"Tôi thấy mình chưa hiểu hết áp lực mà con đang chịu."},
+ {c:"BR4",hs:"Bạn và cha mẹ có cách nhìn rất khác nhau nên khó nói chuyện.",ph:"Tôi và con có cách nhìn rất khác nhau nên khó nói chuyện."},
+ {c:"BR5",hs:"Cha mẹ hay ngắt lời bạn.",ph:"Tôi hay ngắt lời con."},
+ {c:"BR6",hs:"Điện thoại, mạng xã hội hay làm gián đoạn lúc bạn và cha mẹ nói chuyện.",ph:"Điện thoại, mạng xã hội hay làm gián đoạn lúc tôi và con nói chuyện."}
+];
+// Thứ tự hiển thị: các thang xen kẽ OP, AV, BR, DS (cần đối chiếu lại với thứ tự in trong phiếu bản 3)
+const ORDER=["OP1","AV1","BR1","DS1","OP2","AV2","BR2","DS2","OP3","AV3","BR3","DS3","OP4","AV4","BR4","DS4","OP5","AV5","BR5","DS5","OP6","AV6","BR6"];
+const PAGE_SIZES=[6,6,6,5];
+// Cá nhân hóa câu hỏi: học sinh chọn người mình nghĩ tới (thay "cha mẹ"); người lớn chọn mình là ai (thay "tôi") và tên gọi của con (thay "con")
+const WHO={hs:["Mẹ","Bố","Bố mẹ","Ông","Bà","Cô","Dì","Chú","Bác","Anh","Chị"],ph:["Mẹ","Bố","Ông","Bà","Cô","Dì","Chú","Bác","Anh","Chị"]};
+// Câu an toàn (chỉ học sinh): nguy cơ khi EM3 ≥ 4, EM4 ≥ 4, GB3 ≤ 2; từ 2 câu trở lên → Nhịp ngắt
+const SAFE=[
+ {c:"EM3",t:"Bạn thấy cô đơn dù đang nói chuyện với cha mẹ.",risk:v=>v>=4},
+ {c:"EM4",t:"Khi nói chuyện, bạn thấy mình không được cha mẹ tôn trọng.",risk:v=>v>=4},
+ {c:"GB3",t:"Khi bạn gặp chuyện, bạn biết cha mẹ sẽ ở bên cạnh bạn.",risk:v=>v<=2}
+];
+const FLAG_MIN=2;
+// Nhu cầu hỗ trợ (tùy chọn, không tính vào CRI)
+const NEED={
+ hs:[{c:"F1",t:"Bạn biết có thể nhờ ai trong trường cho lời khuyên về chuyện gia đình."},{c:"F2",t:"Bạn sẵn sàng tham gia buổi tư vấn về cách nói chuyện với cha mẹ nếu trường tổ chức."},{c:"F3",t:"Bạn muốn được hướng dẫn cách diễn đạt để cha mẹ hiểu bạn hơn."},{c:"F4",t:"Bạn muốn cha mẹ được hướng dẫn cách lắng nghe con."}],
+ ph:[{c:"F1",t:"Tôi biết có thể nhờ ai trong trường cho lời khuyên về chuyện gia đình."},{c:"F2",t:"Tôi sẵn sàng tham gia buổi tư vấn về cách nói chuyện với con nếu trường tổ chức."},{c:"F3",t:"Tôi muốn được hướng dẫn cách lắng nghe con."},{c:"F4",t:"Tôi muốn nhà trường tổ chức buổi trao đổi chung giữa cha mẹ và học sinh."}]
+};
+// Gợi ý hỗ trợ dựa trên F1–F4 [Đề xuất]
+const NEED_TIP={
+ hs:{F1:{low:true,t:"Xem danh sách người trong trường bạn có thể nhờ ở Trạm hỗ trợ.",go:"support"},F2:{t:"Theo dõi lịch tư vấn và workshop của phòng PDP / Tâm lý.",go:"support"},F3:{t:"Đọc bài “Nói bằng câu “Con thấy…”” trong Cẩm nang.",go:"library"},F4:{t:"Bạn có thể gợi ý bố mẹ mở Nhịp Nhà và đọc phần Cẩm nang cho phụ huynh.",go:"library"}},
+ ph:{F1:{low:true,t:"Xem danh sách người trong trường có thể hỗ trợ ở Trạm hỗ trợ.",go:"support"},F2:{t:"Theo dõi lịch tư vấn và workshop dành cho phụ huynh của nhà trường.",go:"support"},F3:{t:"Đọc bài “Lắng nghe 3 bước” trong Cẩm nang.",go:"library"},F4:{t:"Liên hệ GVCN để đăng ký buổi trao đổi chung giữa cha mẹ và học sinh.",go:"support"}}
+};
+// Thông tin ngữ cảnh (tùy chọn)
+const CTX=[
+ {k:"grade",hs:"Bạn đang học khối",ph:"Con đang học khối",o:["Khối 10","Khối 11","Khối 12"]},
+ {k:"stay",hs:"Hình thức ở trường",ph:"Hình thức ở trường của con",o:["Nội trú cả tuần","Nội trú, về nhà cuối tuần","Bán trú","Khác"]},
+ {k:"talk",hs:"Thời gian nói chuyện với gia đình mỗi tuần",ph:"Thời gian nói chuyện với con mỗi tuần",o:["Dưới 30 phút","30–60 phút","1–3 giờ","3–7 giờ","Trên 7 giờ"]},
+ {k:"chan",hs:"Kênh liên lạc chính",ph:"Kênh liên lạc chính",o:["Gọi điện","Gọi video","Nhắn tin","Gặp trực tiếp","Khác"]}
+];
+// "Điều đang làm tốt" (thang có điểm đã đảo thấp nhất) và "Điều cần quan tâm" (cao nhất)
+const GOOD={hs:{OP:"Bạn cảm thấy mình có thể nói điều mình nghĩ",DS:"Bạn đang chủ động kể cho gia đình",AV:"Bạn ít né tránh khi nói chuyện",BR:"Hai bên ít gặp trở ngại khi trò chuyện"},
+ ph:{OP:"Hai bên có thể nói điều mình nghĩ với nhau",DS:"Con đang chủ động kể cho bố mẹ",AV:"Con ít né tránh khi nói chuyện",BR:"Hai bên ít gặp trở ngại khi trò chuyện"}};
+const CARE={hs:{OP:"Việc nói ra điều mình thật sự nghĩ vẫn còn chưa dễ dàng",DS:"Những chuyện riêng chưa được kể nhiều như bạn mong muốn",AV:"Có những lúc câu chuyện bị né đi hoặc kết thúc sớm",BR:"Có một vài điều cản trở những cuộc trò chuyện của hai bên"},
+ ph:{OP:"Việc nói ra điều mình thật sự nghĩ giữa hai bên vẫn chưa dễ dàng",DS:"Con chưa kể nhiều chuyện riêng như bố mẹ mong muốn",AV:"Có những lúc câu chuyện bị né đi hoặc kết thúc sớm",BR:"Có một vài điều cản trở những cuộc trò chuyện của hai bên"}};
+const RESULT_NOTE="Kết quả này chỉ giúp nhận diện nhu cầu hỗ trợ dựa trên cảm nhận của riêng bạn, không đánh giá ai đúng hay sai và không dùng để chẩn đoán.";
+
+// Bốn nhịp — xếp theo CRI: < 2,5 · 2,5–3,0 · 3,0–3,5 · ≥ 3,5 (hoặc có cờ an toàn)
+const LV=[
+ {n:1,name:"Nhịp ấm",title:"Giữ nhịp yêu thương",max:2.5,col:"var(--l1)",
+  head:{hs:"Nhịp nhà bạn đang ấm",ph:"Nhịp nhà đang ấm"},
+  desc:{hs:"Bạn và gia đình nhìn chung vẫn trò chuyện thoải mái. Chỉ cần giữ những thói quen tốt và thêm vài khoảnh khắc nhỏ mỗi ngày.",ph:"Theo cảm nhận của bố mẹ, hai bên nhìn chung vẫn cởi mở với nhau. Hành trình này giúp giữ thói quen tốt và làm giàu thêm sự gần gũi."},
+  hint:"Hành trình nhẹ, vài phút mỗi ngày.",for:"Dành cho gia đình đang kết nối khá tốt, muốn duy trì sự gần gũi."},
+ {n:2,name:"Nhịp lơi",title:"Gần nhau thêm chút",max:3.0,col:"var(--l2)",
+  head:{hs:"Nhịp nhà bạn đang chậm lại",ph:"Nhịp nhà đang chậm lại"},
+  desc:{hs:"Bạn và gia đình vẫn liên lạc nhưng chuyện riêng ít được kể hơn. Một vài bước nhỏ có thể giúp hai bên gần nhau thêm.",ph:"Theo cảm nhận của bố mẹ, hai bên vẫn liên lạc nhưng con ít chia sẻ hơn. Hành trình này gợi ý những bước nhỏ để mở lời dễ hơn, không cần kiểm tra hay tra hỏi."},
+  hint:"Mỗi tuần một việc nhỏ; học sinh được chọn cách phản hồi.",for:"Dành cho gia đình bắt đầu ít chia sẻ hoặc chưa biết cách mở lời."},
+ {n:3,name:"Nhịp lệch",title:"Chạm thấu hiểu",max:3.5,col:"var(--l3)",
+  head:{hs:"Nhịp nhà bạn đang lệch nhau",ph:"Nhịp nhà đang lệch nhau"},
+  desc:{hs:"Có những lúc bạn và gia đình nói mà không hiểu nhau, dễ nảy sinh hiểu lầm. Hành trình này giúp cả hai học cách nói và nghe theo cách dễ chịu hơn, và có thầy cô đồng hành nếu bạn muốn.",ph:"Theo cảm nhận của bố mẹ, những cuộc trò chuyện dễ gây hiểu lầm hoặc căng thẳng. Hành trình này gợi ý cách nghe và nói giúp hai bên hiểu nhau hơn, có giáo viên đồng hành khi cần."},
+  hint:"Bắt đầu bằng kênh viết nhẹ, sau đó mới đến trò chuyện trực tiếp.",for:"Dành cho gia đình thường hiểu lầm hoặc gặp khó khăn khi trao đổi."},
+ {n:4,name:"Nhịp ngắt",title:"Tìm điểm tựa an toàn",max:99,col:"var(--l4)",
+  head:{hs:"Bạn đang cần thêm điểm tựa",ph:"Con có thể đang cần thêm điểm tựa"},
+  desc:{hs:"Có vẻ việc nói chuyện với gia đình đang khá nặng nề với bạn. Điều quan trọng lúc này là bạn thấy an toàn và có người lớn đáng tin cậy bên cạnh. Bạn không bắt buộc phải làm hòa hay nói chuyện với ai.",ph:"Theo cảm nhận của bố mẹ, việc giao tiếp đang khó khăn. Lúc này nên ưu tiên giảm áp lực, giữ liên lạc nhẹ nhàng và kết nối với nhà trường. Hành trình này không yêu cầu hai bên làm hòa trong 4 tuần."},
+  hint:"Không bắt buộc hai bên cùng làm; có hướng dẫn gặp tư vấn.",for:"Dành cho gia đình có rạn nứt kéo dài hoặc chưa sẵn sàng kết nối trực tiếp.",
+  intro:"Ở mức này, các hoạt động ưu tiên trải nghiệm riêng, giảm áp lực và tìm kiếm hỗ trợ. Không bắt buộc phụ huynh và học sinh phải thực hiện cùng nhau, và lộ trình không đặt mục tiêu bắt buộc hai bên phải làm hòa trong 4 tuần."}
+];
+// Người phụ trách của nhà trường — nhà trường cập nhật tên và cách liên hệ trước khi chạy web
+const SCHOOL_CONTACTS=[
+ {r:"Cán bộ tư vấn – Phòng PDP / Tâm lý",d:"Tư vấn 1-1, sàng lọc định kỳ, workshop về giao tiếp trong gia đình.",how:"Nhà trường cập nhật cách liên hệ"},
+ {r:"Giáo viên chủ nhiệm (GVCN)",d:"Người theo dõi học tập và sinh hoạt ở lớp; có thể gợi ý chủ đề và thời điểm trò chuyện.",how:"Liên hệ qua kênh lớp hoặc trực tiếp"},
+ {r:"Quản nhiệm ký túc xá",d:"Người gặp học sinh hằng ngày tại ký túc xá, có thể tâm sự và hỗ trợ ngay.",how:"Gặp trực tiếp tại ký túc xá"}
+];
+const SAFE_MSG="Bạn không phải đối mặt một mình. Bạn có thể nói với thầy cô hoặc một người lớn bạn tin, hoặc gọi Tổng đài quốc gia bảo vệ trẻ em 111 (miễn phí, 24/7).";
+const LIMITS=["Ngưỡng nhịp và cờ an toàn là tạm thời, chưa hiệu chỉnh bằng tiêu chí bên ngoài.","Bộ công cụ mới thử nghiệm trên 200 học sinh và 80 phụ huynh của một trường, chưa chạy phân tích nhân tố khẳng định (CFA), chưa lấy ý kiến chuyên gia.","Hoạt động trong hành trình có cơ sở lý thuyết nhưng chưa được đánh giá hiệu quả ở đối tượng này."];
+const LET=["C","H","A","M"];
+const LETN={C:"Kết nối",H:"Chữa lành",A:"Nhận thức",M:"Đa phương"};
+const LETD={C:"Nối lại sợi dây liên lạc cha mẹ – con.",H:"Giải tỏa hiểu lầm nhỏ, thương tổn tích tụ trong giao tiếp từ xa.",A:"Bộ công cụ nhận diện (23 câu bản 3) giúp mỗi bên nhận biết mình và nhận biết nhịp hiện tại.",M:"Học sinh – gia đình – nhà trường cùng đồng hành; nhà trường giữ vai trò hỗ trợ."};
+// Món ăn: c = màu món trong bát
+const DISH={
+ com:{n:"Cơm",c:"#F4EFE2",m:"Bữa cơm tượng trưng cho những điều giản dị giúp duy trì sự gần gũi mỗi ngày."},
+ cakho:{n:"Cá kho",c:"#8A5A34",m:"Món cá kho gợi nhớ hương vị thân thuộc của gia đình, tượng trưng cho sự quan tâm được vun đắp qua những điều nhỏ bé."},
+ thitkho:{n:"Thịt kho trứng",c:"#B9772E",m:"Món kho càng để lâu càng thấm, như những thói quen tốt được giữ qua thời gian."},
+ fav:{n:"Món yêu thích của cả nhà",c:"#E58FA0",m:"Món cuối cùng do cả nhà cùng chọn, hoàn thiện mâm cơm nhà mình."},
+ canhchua:{n:"Canh chua",c:"#E0784A",m:"Vị chua ngọt hài hòa, như một khởi đầu nhẹ nhàng cho những cuộc trò chuyện."},
+ trung:{n:"Trứng chiên",c:"#F2C14E",m:"Món quen thuộc, làm nhanh mà ấm bụng, như những lời quan tâm ngắn mỗi ngày."},
+ rauxao:{n:"Rau xào",c:"#5FA05A",m:"Đĩa rau xanh giản dị giúp bữa cơm cân bằng, như sự quan tâm đúng lúc."},
+ comtrang:{n:"Cơm trắng",c:"#F4EFE2",m:"Cơm trắng dẻo thơm, nền của mọi bữa cơm nhà."},
+ mam:{n:"Mắm chưng",c:"#A8673A",m:"Mắm chưng đậm đà, hương vị quen thuộc của bữa cơm miền Tây."},
+ rausong:{n:"Rau sống",c:"#8CC56E",m:"Rau sống thanh mát, giúp bữa cơm nhẹ nhàng hơn."},
+ canhkhoai:{n:"Canh khoai",c:"#9C7CC9",m:"Bát canh khoai ấm lòng khép lại mâm cơm."}
+};
+// Hành trình: 4 mức × 4 tuần. sh = hoạt động chung, hs/ph = nhiệm vụ riêng, tip = gợi ý, dish = món mở khóa
+// go: home | garden | moments | diary:secret|thanks|letter|pact | meal | library | openers | support
+const J={
+1:[
+ {t:"Mình cùng lắng nghe",sh:[{i:"tree",t:"Trồng cây yêu thương",d:"Mỗi bên chọn một điều tích cực để tưới cho cây.",go:"garden"},{i:"chat",t:"Thử thách “5 phút chuyện nhà”",d:"Kể nhau nghe một chuyện vui trong ngày."}],
+  hs:{t:"Khoảnh khắc mỗi ngày",d:"Mỗi ngày gửi gia đình một bức ảnh hoặc một câu chuyện nhỏ: món ăn ở căng tin, trận bóng, một câu nói vui của bạn cùng phòng.",go:"moments"},
+  ph:{t:"Một câu hỏi khác điểm số",d:"Trong mỗi cuộc gọi, hỏi con một câu về bạn bè, sở thích hoặc điều con đang thích thú, trước khi nhắc đến việc học.",go:"openers"},
+  tip:[],dish:"com"},
+ {t:"Hiểu điều chưa nói",sh:[{i:"paw",t:"Nuôi Bé Chạm",d:"Cùng chăm thú cưng ảo, mở khóa phụ kiện.",go:"garden"}],
+  hs:{t:"Thử thách biết ơn",d:"Trong tuần, gửi bố mẹ ba lời cảm ơn thật cụ thể, ví dụ: “Cảm ơn mẹ đã gửi thêm áo ấm.”",go:"diary:thanks"},
+  ph:{t:"Ghi nhận con",d:"Nói với con một điều cụ thể con đã làm tốt trong tuần, không liên quan đến điểm số."},
+  tip:[{t:"Hoàn thành nhiệm vụ để nhận nhịp thương chăm sóc Bé Chạm."}],dish:"cakho"},
+ {t:"Ấm áp sẻ chia",sh:[{i:"camera",t:"Khoảnh khắc nhà mình",d:"Gửi một tấm ảnh cho người thân kèm chú thích thân thương.",go:"moments"}],
+  hs:{t:"Điều nhà mình làm tốt",d:"Viết lại hai điều giúp nhà mình đang giữ được nhịp, để nhớ mà giữ tiếp.",go:"diary:secret"},
+  ph:{t:"Điều nhà mình làm tốt",d:"Viết lại hai thói quen giúp hai bố/mẹ con trò chuyện dễ dàng, để giữ trong học kỳ tới.",go:"diary:secret"},
+  tip:[],dish:"thitkho"},
+ {t:"Mình cùng vun đắp",sh:[{i:"mail",t:"Hộp thư yêu thương",d:"Mỗi thành viên viết một lời nhắn về điều mình trân trọng hoặc mong muốn người thân thấu hiểu.",go:"diary:letter"},{i:"bowl",t:"Bữa cơm kết nối",d:"Cùng chọn một món ăn yêu thích, trò chuyện về những điều tích cực trong tuần mà không phán xét hay trách móc.",go:"meal"}],
+  hs:{t:"Mời bố mẹ đến trường",d:"Rủ bố mẹ tham dự một sự kiện của trường: hội thao, văn nghệ, ngày hội gia đình."},
+  ph:{t:"Tham gia hoạt động phụ huynh",d:"Tham gia một buổi họp, workshop hoặc ngày hội gia đình của trường để hiểu nhịp sống của con."},
+  tip:[],dish:"fav"}
+],
+2:[
+ {t:"Bắt đầu từ điều nhỏ",sh:[{i:"tree",t:"Trồng cây yêu thương",d:"Chọn tên cây và gieo hạt, tượng trưng cho một khởi đầu mới.",go:"garden"}],
+  hs:{t:"Hẹn giờ gọi 15 phút",d:"Tự đề xuất với bố mẹ một khung giờ cố định mỗi tuần mà mình thấy thoải mái nhất để gọi."},
+  ph:{t:"Lịch trò chuyện cố định",d:"Chọn cùng con một khung 15 phút cố định mỗi ngày, chỉ để hỏi han, không kiểm tra bài vở."},
+  tip:[{t:"Học sinh chọn cách phản hồi thoải mái: nhắn tin, biểu tượng cảm xúc hoặc nói chuyện."},{t:"Xem câu mở lời gợi ý để hai bên dễ mở lòng hơn.",go:"openers"}],dish:"canhchua"},
+ {t:"Một chút sẻ chia",sh:[{i:"paw",t:"Nuôi Bé Chạm",d:"Cùng chọn tên, màu lông hoặc phụ kiện cho pet.",go:"garden"}],
+  hs:{t:"Bắt đầu bằng “Con thấy…”",d:"Khi buồn hay khó chịu, thay câu “Bố mẹ không hiểu gì” bằng “Con thấy buồn khi…”. Thử ít nhất ba lần trong tuần."},
+  ph:{t:"Bắt đầu bằng “Bố/Mẹ lo…”",d:"Thay câu “Con lúc nào cũng…” bằng “Bố/mẹ lo khi…”. Thử ít nhất ba lần trong tuần."},
+  tip:[{t:"Bật “Nhắc nhở mỗi ngày” trong Cá nhân để thấy lời nhắc trên Trang chủ."}],dish:"trung"},
+ {t:"Nói lời quan tâm",sh:[{i:"book",t:"Nhật ký điều chưa nói",d:"Mỗi bên chọn một cách thể hiện sự quan tâm: một tin nhắn hỏi thăm nhẹ nhàng, một lời động viên, một lời cảm ơn trong nhật ký.",go:"diary:thanks"}],
+  hs:{t:"Nhận ra lúc mình né",d:"Ghi lại một lần mình trả lời cụt hoặc lảng tránh. Lúc đó mình đang mệt, đang ngại hay đang buồn?",go:"diary:secret"},
+  ph:{t:"Đếm câu hỏi kiểm tra",d:"Sau một cuộc gọi, đếm xem mình hỏi bao nhiêu câu về học tập và bao nhiêu câu về cảm xúc của con.",go:"diary:secret"},
+  tip:[],dish:"rauxao"},
+ {t:"Tạo nhịp kết nối",sh:[{i:"cal",t:"Lịch liên lạc nhà mình",d:"Cùng chọn thời gian và hình thức liên lạc phù hợp với lịch học nội trú, ví dụ: trò chuyện ít nhất 20 phút mỗi ngày.",go:"diary:pact"},{i:"camera",t:"Khoảnh khắc nhà mình",d:"Chụp lại bữa ăn hôm đó để chia sẻ cho người thân.",go:"moments"}],
+  hs:{t:"Hỏi thầy cô một lời khuyên",d:"Nói chuyện với GVCN hoặc quản nhiệm về cách kể chuyện với bố mẹ cho dễ hơn."},
+  ph:{t:"Trao đổi với giáo viên của con",d:"Hỏi GVCN hoặc quản nhiệm về sinh hoạt của con ở lớp và ký túc xá để có thêm chủ đề trò chuyện với con."},
+  tip:[],dish:"com"}
+],
+3:[
+ {t:"Tin nhắn thay lời",sh:[{i:"tree",t:"Trồng cây yêu thương",d:"Chăm cây bằng nhịp thương nhận được sau mỗi nhiệm vụ.",go:"garden"}],
+  hs:{t:"Điều con muốn kể",d:"Gửi một tin nhắn ngắn kể một điều trong ngày. Không cần chờ trả lời, không cần dài."},
+  ph:{t:"Lá thư gửi con",d:"Viết cho con một lá thư hoặc tin nhắn dài kể điều mình trân trọng ở con, không kèm lời khuyên hay nhắc nhở.",go:"diary:letter"},
+  tip:[],dish:"comtrang"},
+ {t:"Gọi tên cảm xúc",sh:[{i:"paw",t:"Nuôi Bé Chạm",d:"Chọn biểu cảm cho pet tương ứng với cảm xúc trong ngày. Mỗi bên tự chọn từ mô tả cảm xúc của mình.",go:"garden"}],
+  hs:{t:"Quyền tạm dừng",d:"Khi thấy nóng giận, nói “Con xin nói tiếp sau nhé” thay vì im lặng hoặc cúp máy."},
+  ph:{t:"Lắng nghe 3 bước",d:"Nghe con nói hết, nhắc lại điều mình hiểu, rồi hỏi: “Con muốn bố/mẹ giúp, hay chỉ cần bố/mẹ nghe?”"},
+  tip:[{t:"Thử lắng nghe và thấu hiểu người kia trong lúc trò chuyện."}],dish:"mam"},
+ {t:"Gỡ rối bằng lời nói",sh:[{i:"mail",t:"Hòm thư thấu hiểu",d:"Viết điều mà mình mong muốn người kia hiểu.",go:"diary:letter"}],
+  hs:{t:"Một từ sau cuộc gọi",d:"Sau mỗi cuộc gọi, ghi lại một từ hoặc câu nói mô tả cảm xúc của mình. Cuối tuần nhìn lại xem điều gì làm mình thấy dễ chịu hoặc khó chịu.",go:"diary:secret"},
+  ph:{t:"Câu nói làm con im lặng",d:"Ghi lại những câu mình đã nói khiến con im lặng hoặc gắt lên, rồi tìm cho mỗi câu một cách nói khác.",go:"diary:secret"},
+  tip:[{t:"Chọn một vấn đề ít căng thẳng để trò chuyện."},{t:"Lắng nghe nhiều hơn và học cách thấu hiểu."}],dish:"rausong"},
+ {t:"Nhịp kết nối",sh:[{i:"pact",t:"Thỏa thuận giao tiếp của nhà mình",d:"Cùng thống nhất vài nguyên tắc: không ngắt lời, không dùng từ ngữ khó nghe, có thể xin tạm dừng, không lôi chuyện cũ.",go:"diary:pact"}],
+  hs:{t:"Tham gia workshop của trường",d:"Tham gia buổi workshop của phòng PDP / tâm lý về giao tiếp, hoặc đăng ký gặp tư vấn nếu muốn."},
+  ph:{t:"Workshop dành cho phụ huynh",d:"Đăng ký buổi workshop hoặc buổi trao đổi với phòng tư vấn của trường về cách trò chuyện với con tuổi mới lớn."},
+  tip:[{t:"Chọn cách giải quyết phù hợp mỗi khi có bất đồng."}],dish:"canhkhoai"}
+],
+4:[
+ {t:"Có không gian an toàn",sh:[{i:"tree",t:"Cây của riêng mình",d:"Mỗi người có thể trồng cây riêng và chọn một lời nhắn dành cho chính mình.",go:"garden",solo:true}],
+  hs:{t:"Một tín hiệu nhỏ",d:"Chỉ cần cho gia đình biết mình vẫn ổn, bằng một tin nhắn ngắn. Bạn không bắt buộc phải trò chuyện."},
+  ph:{t:"Hỏi thăm không đòi hỏi",d:"Gửi con lời hỏi thăm ngắn, không yêu cầu con phải trả lời ngay, không nhắc lại chuyện gây căng thẳng."},
+  tip:[{t:"Đọc hướng dẫn về lắng nghe và giảm áp lực trong Thư viện giải pháp.",role:"ph",go:"library"}]},
+ {t:"Nhận diện điều mình cần",sh:[{i:"shield",t:"Người mình có thể nhờ",d:"Ghi lại tên hai, ba người (thầy cô, người thân, bạn bè) mình có thể nhờ khi thấy nặng lòng. Danh sách người phụ trách trong trường có ở Trạm hỗ trợ.",go:"support",solo:true}],
+  hs:{t:"Chăm sóc bản thân trước",d:"Ngủ đủ, ăn uống đều, và có ít nhất một người bạn hoặc thầy cô để chia sẻ khi thấy nặng lòng."},
+  ph:{t:"Tạm dừng chuyện căng thẳng",d:"Trong một đến hai tuần, không nhắc lại vấn đề đang gây xung đột. Chỉ giữ liên lạc nhẹ nhàng."},tip:[]},
+ {t:"Điều còn trăn trở",sh:[],
+  hs:{t:"Nhận ra mình cần giúp",d:"Viết ra những điều đang làm mình mệt mỏi nhất trong chuyện gia đình, rồi mang theo khi gặp thầy cô tư vấn. Nhật ký này mặc định chỉ mình bạn đọc.",go:"diary:secret"},
+  ph:{t:"Nhìn lại từ phía con",d:"Viết ra ba điều con có thể đang cảm thấy lúc này, theo cách con nhìn, không phải cách mình nhìn.",go:"diary:secret"},tip:[]},
+ {t:"Cầu nối nhà và con",sh:[],
+  hs:{t:"Gặp thầy cô tư vấn 1-1",d:"Đăng ký gặp riêng phòng PDP / tâm lý. Bạn có quyền chỉ kể những gì mình muốn kể.",go:"support"},
+  ph:{t:"Hẹn gặp phòng tư vấn",d:"Liên hệ GVCN hoặc phòng tư vấn để được hỗ trợ. Buổi gặp ba bên chỉ diễn ra khi con sẵn sàng.",go:"support"},tip:[{t:"Sau 4 tuần, Nhịp Nhà sẽ mời bạn làm lại phiếu để nhìn lại nhịp nhà."}]}
+]};
+const OPEN={
+ hs:["Hôm nay ở nhà có gì vui không ạ?","Dạo này bố/mẹ có mệt không?","Con kể bố mẹ nghe chuyện này buồn cười lắm…","Cuối tuần này nhà mình ăn gì ạ?","Hồi bằng tuổi con, bố/mẹ thích làm gì nhất?","Tuần này con hơi mệt, bố mẹ nghe con kể chút nha.","Con mới học được một điều hay, kể bố mẹ nghe nhé?","Hôm nay ở trường có món này ngon lắm, nhà mình nấu thử không?"],
+ ph:["Hôm nay có điều gì làm con vui không?","Tuần này tiết nào con thấy thú vị nhất?","Bạn cùng phòng con dạo này sao rồi?","Tuần này bố/mẹ có thể giúp gì cho con không?","Con muốn bố/mẹ góp ý, hay chỉ cần bố/mẹ nghe thôi?","Cuối tuần về con muốn ăn món gì?","Ở trường có chuyện gì làm con bất ngờ không?","Bố/mẹ nhớ con. Hôm nay của con thế nào?"]
+};
+const LIB=[
+ {r:"all",t:"Lắng nghe 3 bước",b:`<p>Lắng nghe không phải là chờ đến lượt mình nói.</p><ol class="list"><li><b>Nghe hết.</b> Không cắt lời, không vội khuyên.</li><li><b>Nhắc lại.</b> “Ý con là… đúng không?”</li><li><b>Hỏi người kia cần gì.</b> “Con muốn bố/mẹ giúp, hay chỉ cần bố/mẹ nghe?”</li></ol>`},
+ {r:"all",t:"Nói bằng câu “Con thấy…” và “Bố/Mẹ lo…”",b:`<p>Câu bắt đầu bằng cảm xúc của người nói giúp người nghe ít thấy bị buộc tội hơn.</p><div class="say"><div class="no">Bố mẹ không hiểu gì cả.</div><div class="yes">Con thấy buồn khi chưa kể xong đã bị góp ý.</div><div class="no">Con lúc nào cũng cắm mặt vào điện thoại.</div><div class="yes">Mẹ lo khi gọi mà con không nghe máy.</div></div>`},
+ {r:"all",t:"Quyền tạm dừng",b:`<p>Ai cũng có thể xin tạm dừng khi thấy nóng giận, và hẹn lúc nói tiếp.</p><ul class="list"><li>Học sinh: “Con xin nói tiếp sau nhé.”</li><li>Phụ huynh: “Bố/mẹ cần bình tĩnh một chút, tối mình nói tiếp nhé.”</li><li>Tạm dừng khác với cúp máy hay im lặng: luôn có lời hẹn quay lại.</li></ul>`},
+ {r:"all",t:"Không lôi chuyện cũ",b:`<p>Chỉ tập trung giải quyết vấn đề đang diễn ra ở hiện tại, không nhắc lại những lỗi lầm cũ. Khi một bên nhắc chuyện cũ, người kia có thể nói nhẹ: “Mình nói chuyện hôm nay thôi nhé.”</p>`},
+ {r:"ph",t:"Gọi điện cho con học nội trú",b:`<ul class="list"><li>Chọn khung giờ cố định, tránh giờ con học bài hoặc vừa thi xong.</li><li>Mở đầu bằng chuyện đời thường trước khi hỏi về học tập.</li><li>Kết thúc bằng một câu ghi nhận, kể cả khi chưa nói được nhiều.</li></ul>`},
+ {r:"ph",t:"Giảm áp lực khi con chưa muốn nói",b:`<ul class="list"><li>Gửi lời hỏi thăm ngắn, không đòi con trả lời ngay.</li><li>Tạm gác chuyện điểm số và chuyện đang gây xung đột trong một đến hai tuần.</li><li>Cho con biết cánh cửa luôn mở: “Khi nào con muốn kể, bố/mẹ luôn nghe.”</li><li>Nhờ GVCN hoặc phòng tư vấn khi cần một người trung gian.</li></ul>`},
+ {r:"hs",t:"Khi mình thấy nặng lòng",b:`<ul class="list"><li>Ngủ đủ, ăn uống đều trước đã.</li><li>Chọn một người bạn hoặc thầy cô mình tin để kể.</li><li>Viết vào “Điều chưa nói”: viết ra giúp mình nhìn rõ cảm xúc hơn.</li><li>Nếu thấy không an toàn, gọi 111 hoặc nói ngay với thầy cô.</li></ul>`},
+ {r:"all",t:"Khi nào cần tìm hỗ trợ",b:`<p>Một dấu hiệu đơn lẻ chưa nói lên điều gì. Hãy tìm hỗ trợ khi nhiều dấu hiệu cùng kéo dài hơn hai tuần:</p><ul class="list"><li>Không nghe máy hoặc trả lời cụt lủn nhiều tuần liền.</li><li>Cuộc gọi nào cũng kết thúc bằng cãi nhau.</li><li>Một bên biết chuyện quan trọng của người kia qua người khác.</li><li>Có cảm giác sợ hãi hoặc không an toàn.</li></ul>`}
+];
+const MOM=[
+ {t:"Góc học tập của mình",cap:{hs:["Đây là nơi con chiến đấu với bài tập mỗi tối ạ.","Bàn học hôm nay gọn hơn mọi ngày nè."],ph:["Góc bàn quen thuộc ở nhà vẫn chờ con về.","Hôm nay bố/mẹ dọn lại góc học của con."]}},
+ {t:"Món ăn gợi nhớ gia đình",cap:{hs:["Món này làm con nhớ cơm mẹ nấu.","Căng tin có món này, nhưng không ngon bằng ở nhà."],ph:["Nhà mình hôm nay nấu món con thích.","Cuối tuần con về, nhà mình ăn món này nhé."]}},
+ {t:"Khoảnh khắc vui trong ngày",cap:{hs:["Chuyện vui nhất hôm nay của con đây.","Hôm nay lớp con có trò này vui lắm."],ph:["Hôm nay ở nhà có chuyện này vui ghê.","Gửi con một nụ cười của ngày hôm nay."]}},
+ {t:"Bữa ăn hôm nay",cap:{hs:["Bữa trưa hôm nay của con ạ.","Con ăn no rồi, bố mẹ yên tâm nha."],ph:["Bữa cơm nhà mình tối nay.","Mâm cơm hôm nay thiếu con một chỗ."]}},
+ {t:"Bầu trời nơi mình đang ở",cap:{hs:["Trời ở trường hôm nay đẹp lắm.","Chiều nay ở trường có hoàng hôn này."],ph:["Trời ở nhà hôm nay nè con.","Cùng một bầu trời, nhà mình nhớ con."]}},
+ {t:"Một đồ vật nhắc mình về người thân",cap:{hs:["Món đồ này làm con nhớ nhà.","Cái áo mẹ gửi, con mặc rồi nè."],ph:["Thấy món này là nhớ con.","Đồ của con ở nhà, bố/mẹ vẫn giữ."]}}
+];
+const MOODS=["Vui","Bình yên","Biết ơn","Mệt","Lo lắng","Buồn","Bực bội","Bối rối"];
+const PET_MOOD=[{k:"vui",n:"Vui"},{k:"yen",n:"Bình yên"},{k:"met",n:"Mệt"},{k:"buon",n:"Buồn"},{k:"lo",n:"Lo lắng"},{k:"gian",n:"Bực bội"}];
+const PET_COL=[{c:"#F3D9A4",n:"Kem"},{c:"#F4B8C5",n:"Hồng"},{c:"#FFC9A8",n:"Đào"},{c:"#C9B8EE",n:"Tím"},{c:"#A9C8EE",n:"Xanh"}];
+// Thói quen hằng ngày: mỗi ngày làm nhiệm vụ = 1 nhịp thương; đủ DAYS_NEEDED/7 ngày mới hoàn thành tuần
+const DAYS_NEEDED=5;
+// Đồ cho Bé Chạm: mỗi món cần ITEM_COST nhịp thương (khoảng 1 tuần giữ thói quen)
+const ITEM_COST=7;
+const PET_ACC=[{k:"no",n:"Nơ xinh"},{k:"hoa",n:"Hoa cài tai"},{k:"mu",n:"Mũ len"},{k:"khan",n:"Khăn quàng"},{k:"kinh",n:"Kính tròn"},{k:"vm",n:"Vương miện lá"}];
+// Cây lớn theo tổng số ngày giữ nhịp
+const TREE_AT=[0,3,7,14,21];
+const PACT_RULES=["Không ngắt lời nhau","Không dùng từ ngữ khó nghe","Ai cũng có thể xin tạm dừng","Không lôi chuyện cũ","Kết thúc cuộc gọi bằng một lời chúc"];
+const PACT_WAYS=["Gọi điện","Gọi video","Nhắn tin","Thư tay"];
+const AV=["🐱","🐶","🐰","🐻","🐼","🦊","🐯","🐨","🐸","🐧","🦉","🐢"];
+
+/* =========================================================
+   TRẠNG THÁI (lưu trên trình duyệt của thiết bị này)
+   ========================================================= */
+const KEY="nhipnha-v3",OLDKEY="nhipnha-v2";
+const blank=()=>({onb:false,role:null,nick:"",av:"🐱",who:{hs:{},ph:{}},anon:"NN-"+Math.random().toString(36).slice(2,8).toUpperCase(),consent:null,ctx:{},
+  hist:{hs:[],ph:[]},choice:{},j:{},hearts:3,
+  tree:{name:"",water:0,msg:""},pet:{name:"Bé Chạm",col:"#F3D9A4",acc:"",mood:"vui",care:0,owned:[]},log:{},
+  diary:[],pact:{rules:[],custom:[],when:"",ways:[],saved:""},mom:{done:{},photos:[]},set:{big:false,remind:true}});
+let S=blank();
+function loadState(){
+  let r=null;try{r=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+  if(!r){ // chuyển từ bản cũ: giữ hồ sơ, pet, cây, nhật ký; bỏ kết quả đo theo bảng hỏi cũ
+    try{const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&typeof o==="object"){r={};["onb","role","nick","av","hearts","tree","pet","log","diary","pact","mom","set"].forEach(k=>{if(o[k]!=null)r[k]=o[k]})}}catch(e){}
+  }
+  if(r&&typeof r==="object"){S=Object.assign(blank(),r);S.pet=Object.assign(blank().pet,S.pet||{});S.set=Object.assign(blank().set,S.set||{});S.log=S.log||{};S.choice=S.choice||{};S.ctx=S.ctx||{};S.hist=S.hist||{hs:[],ph:[]};S.who=Object.assign({hs:{},ph:{}},S.who||{})}
+}
+loadState();
+let warned=false;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){if(!warned){warned=true;toast("Trình duyệt này không cho lưu dữ liệu. Tiến trình sẽ mất khi đóng trang.")}}}
+let V={view:S.onb?"home":"welcome",prev:[],sv:null,wk:0,dtab:"secret",res:null,pick:null,opener:0,confirmWipe:false,draft:{}};
+
+/* =========================================================
+   TIỆN ÍCH
+   ========================================================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const today=()=>{const d=new Date();return d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const isHS=()=>S.role==="hs";
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2400)}
+function copy(text){
+  const ok=()=>toast("Đã sao chép. Bạn có thể dán vào Zalo hoặc tin nhắn.");
+  try{navigator.clipboard.writeText(text).then(ok,()=>fallback())}catch(e){fallback()}
+  function fallback(){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok()}catch(e){toast("Hãy chọn và sao chép đoạn chữ thủ công.")}ta.remove()}
+}
+function applySet(){document.documentElement.style.fontSize=S.set.big?"18px":"16px"}
+
+const IC={
+ home:'<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+ camera:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+ map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+ book:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="M12 7.5c-1-1.2-3-.6-3 .9 0 1.6 3 3.1 3 3.1s3-1.5 3-3.1c0-1.5-2-2.1-3-.9z"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/>',
+ tree:'<path d="M12 21v-7"/><path d="M12 14c-4 0-6-3-6-6a6 6 0 0 1 12 0c0 3-2 6-6 6z"/><path d="M8 21h8"/>',
+ paw:'<circle cx="7" cy="10" r="2"/><circle cx="17" cy="10" r="2"/><circle cx="10" cy="6" r="2"/><circle cx="14" cy="6" r="2"/><path d="M12 12c-3 0-5 3-5 5 0 2 2 3 5 3s5-1 5-3c0-2-2-5-5-5z"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+ bowl:'<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M9 7c0-2 2-2 2-4M14 7c0-2 2-2 2-4"/>',
+ heart:'<path d="M12 20s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/>',
+ shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ pact:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/>',
+ back:'<path d="M15 5l-7 7 7 7"/>',
+ check:'<path d="m5 12 5 5 9-10"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+ pulse:'<path d="M2 13h4l3-7 4 13 3-6h6"/>',
+ grad:'<path d="M2 9 12 4l10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
+ eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ medal:'<circle cx="12" cy="14" r="6"/><path d="M9 3l3 5 3-5"/><path d="m12 11 1 2 2 .3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1L9 13.3l2-.3z"/>'
+};
+const ic=(n,cls="ic")=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||""}</svg>`;
+
+/* =========================================================
+   TÍNH ĐIỂM (bản 3)
+   ========================================================= */
+const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const itemsOf=k=>ITEMS.filter(i=>i.c.slice(0,2)===k);
+// Điểm thang chỉ tính khi trả lời đủ 80% số câu (OP, AV, BR ≥ 5/6; DS ≥ 4/5)
+function scaleScores(ans){const raw={},miss=[];Object.keys(SCALES).forEach(k=>{const v=itemsOf(k).map(i=>ans[i.c]).filter(x=>typeof x==="number");raw[k]=v.length>=SCALES[k].need?mean(v):null;if(raw[k]==null)miss.push(k)});return {raw,miss}}
+// CRI = [(6 − OP) + AV + (6 − DS) + BR] / 4
+function criFrom(raw){const disp={OP:6-raw.OP,AV:raw.AV,DS:6-raw.DS,BR:raw.BR};return {disp,cri:(disp.OP+disp.AV+disp.DS+disp.BR)/4}}
+const lvFromCRI=cri=>LV.find(l=>cri<l.max).n;
+function scoreForm(role,sv){
+  const {raw,miss}=scaleScores(sv.ans);if(miss.length)return {miss};
+  const {disp,cri}=criFrom(raw),lvCRI=lvFromCRI(cri);
+  const flagCount=role==="hs"?SAFE.filter(q=>typeof sv.safe[q.c]==="number"&&q.risk(sv.safe[q.c])).length:0;
+  const flag=flagCount>=FLAG_MIN,lv=flag?4:lvCRI;
+  const ks=Object.keys(SCALES),best=ks.reduce((a,b)=>disp[b]<disp[a]?b:a),worst=ks.reduce((a,b)=>disp[b]>disp[a]?b:a);
+  let brTop=null;itemsOf("BR").forEach(i=>{const v=sv.ans[i.c];if(typeof v==="number"&&v>=4&&(!brTop||v>sv.ans[brTop]))brTop=i.c});
+  const vals=ORDER.map(c=>sv.ans[c]).filter(x=>typeof x==="number");
+  const prev=last(role);
+  return {id:uid(),ver:personalized(role)?QVER+"-canhan":QVER,who:{term:whoTerm(role)||null,child:role==="ph"?(childName()||null):undefined},role,attempt:(S.hist[role]||[]).length+1,start:sv.start,end:Date.now(),pageMs:sv.pageMs.slice(),
+    ans:Object.assign({},sv.ans),safe:Object.assign({},sv.safe),need:Object.assign({},sv.need),ctx:Object.assign({},S.ctx),
+    raw,disp,cri,lvCRI,flagCount,flag,lv,best,worst,brTop,
+    quality:{secs:Math.round((Date.now()-sv.start)/1000),straight:vals.length>=20&&vals.every(v=>v===vals[0])},
+    date:today(),ts:Date.now(),from:prev?prev.lv:null,prevRaw:prev?prev.raw:null};
+}
+const last=role=>{const h=S.hist[role||S.role]||[];return h[h.length-1]||null};
+
+/* =========================================================
+   HÀNH TRÌNH
+   ========================================================= */
+function cycleBase(){return (S.role||"x")+":"+((S.hist[S.role]||[]).length)}
+// nhịp đang theo: nhịp người dùng chọn cho lần đo này, mặc định là nhịp được gợi ý
+function curLevel(){const r=last();if(!r)return null;return S.choice[cycleBase()]||r.lv}
+function cycleKey(){return cycleBase()+":"+curLevel()}
+function jr(l){l=cycleKey();if(!S.j[l])S.j[l]={steps:{},done:{},skip:{},fb:{},rew:{},note:{},fav:"",happy:""};const s=S.j[l];s.days=s.days||{};s.start=s.start||{};s.dnote=s.dnote||{};s.skip=s.skip||{};s.fb=s.fb||{};return s}
+const DAY=864e5;
+const sod=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+const dkey=t=>{const d=new Date(t);return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
+function ensureStart(l,w){const s=jr(l);if(!s.start[w])s.start[w]=Date.now();return s.start[w]}
+// ngày thứ mấy của tuần (1–7) tính theo lịch thật; chế độ xem thử mở sẵn cả 7 ngày
+function dayToday(l,w){if(S.set.demo)return 7;const st=jr(l).start[w];if(!st)return 1;return Math.max(1,Math.min(7,Math.floor((sod(Date.now())-sod(st))/DAY)+1))}
+function daysDone(l,w){const d=jr(l).days[w]||{};return Object.keys(d).filter(k=>d[k]).length}
+function totalDays(){let n=0;Object.keys(S.j).forEach(l=>{const s=S.j[l];if(s&&s.days)Object.keys(s.days).forEach(w=>{n+=Object.values(s.days[w]).filter(Boolean).length})});return n}
+function streak(){let n=0,t=sod(Date.now());if(!S.log[dkey(t)])t-=DAY;while(S.log[dkey(t)]){n++;t-=DAY}return n}
+function tickDay(l,w,d){
+  const s=jr(l);ensureStart(l,w);s.days[w]=s.days[w]||{};
+  if(d>dayToday(l,w))return;
+  s.days[w][d]=!s.days[w][d];
+  if(s.days[w][d]){if(d===dayToday(l,w))S.log[dkey(Date.now())]=1;reward(l,"d"+w+"-"+d,1)}
+  save();
+}
+// tuần "đã qua" khi hoàn thành hoặc người dùng chọn bỏ qua
+function curWeek(l){const s=jr(l);for(let w=0;w<4;w++)if(!s.done[w]&&!s.skip[w])return w;return 4}
+// đo lại khi đã qua cả 4 tuần (hoặc chưa đo lần nào / đang ở chế độ xem thử)
+function canRetake(){const l=curLevel();return !l||S.set.demo||curWeek(l)>=4}
+function reward(l,key,n){const s=jr(l);if(s.rew[key])return;s.rew[key]=1;S.hearts+=n;toast(`+${n} nhịp thương`)}
+
+/* =========================================================
+   HÌNH VẼ
+   ========================================================= */
+function wave(lv,col){
+  const W=600,mid=45,cfg={1:[24,60],2:[12,110],3:[24,55],4:[20,60]}[lv],seed=[.9,1.4,.5,1.2,.7,1.6,.4,1.1];let d="",pen=false;
+  for(let x=0;x<=W;x+=4){const k=Math.floor(x/cfg[1])%seed.length,amp=cfg[0]*(lv===3?seed[k]:1),y=mid-Math.sin(x/cfg[1]*Math.PI*2)*amp;
+    if(lv===4&&((x>150&&x<230)||(x>380&&x<470))){pen=false;continue}d+=(pen?"L":"M")+x+" "+y.toFixed(1)+" ";pen=true}
+  return `<svg class="wave" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" stroke="${col}"/></svg>`;
+}
+function petSVG(p){
+  const c=p.col,m=p.mood;let eyes,mouth,brow="";
+  const E=(x)=>`<circle cx="${x}" cy="60" r="4.5" fill="#2B2B2B"/><circle cx="${x+1.5}" cy="58.5" r="1.4" fill="#fff"/>`;
+  if(m==="yen"){eyes=`<path d="M40 60 Q46 65 52 60M68 60 Q74 65 80 60" stroke="#2B2B2B" stroke-width="3" fill="none" stroke-linecap="round"/>`;mouth=`<path d="M54 74 Q60 79 66 74" stroke="#2B2B2B" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  else if(m==="met"){eyes=`<path d="M40 61 h12M68 61 h12" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round"/>`;mouth=`<path d="M54 76 h12" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round"/>`}
+  else if(m==="buon"){eyes=E(46)+E(74);mouth=`<path d="M52 79 Q60 72 68 79" stroke="#2B2B2B" stroke-width="3" fill="none" stroke-linecap="round"/>`;brow=`<path d="M40 50 l10 3M80 50 l-10 3" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round"/>`}
+  else if(m==="lo"){eyes=E(46)+E(74);mouth=`<path d="M51 77 q3-3 6 0 t6 0 t6 0" stroke="#2B2B2B" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;brow=`<path d="M40 52 l10-3M80 52 l-10-3" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="round"/>`}
+  else if(m==="gian"){eyes=E(46)+E(74);mouth=`<path d="M53 77 h14" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round"/>`;brow=`<path d="M40 49 l11 5M80 49 l-11 5" stroke="#2B2B2B" stroke-width="3" stroke-linecap="round"/>`}
+  else{eyes=E(46)+E(74);mouth=`<path d="M50 72 Q60 84 70 72" stroke="#2B2B2B" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  let acc="";
+  if(p.acc==="no")acc=`<path d="M60 26 l-14 -8 v16z M60 26 l14 -8 v16z" fill="#E06C8A"/><circle cx="60" cy="26" r="4.5" fill="#C9506F"/>`;
+  if(p.acc==="mu")acc=`<path d="M28 40 Q60 2 92 40 Z" fill="#E07B5A"/><rect x="26" y="36" width="68" height="9" rx="4.5" fill="#F3E3D3"/><circle cx="60" cy="12" r="6" fill="#F3E3D3"/>`;
+  if(p.acc==="khan")acc=`<path d="M26 88 Q60 104 94 88 L94 96 Q60 112 26 96Z" fill="#5B8FD9"/><path d="M78 96 l6 16 l8 -4 l-6 -14z" fill="#4A7CC4"/>`;
+  if(p.acc==="kinh")acc=`<circle cx="46" cy="60" r="10" fill="none" stroke="#3A3A3A" stroke-width="2.5"/><circle cx="74" cy="60" r="10" fill="none" stroke="#3A3A3A" stroke-width="2.5"/><path d="M56 60 h8" stroke="#3A3A3A" stroke-width="2.5"/>`;
+  if(p.acc==="hoa")acc=`<g transform="translate(88 30)">${[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-7" rx="5" ry="7" fill="#F6A5C0" transform="rotate(${a})"/>`).join("")}<circle r="4.5" fill="#FFD86B"/></g>`;
+  if(p.acc==="vm")acc=`<path d="M34 34 l8 -16 l9 12 l9 -16 l9 16 l9 -12 l8 16 z" fill="#7CC36A" stroke="#4E9A43" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="16" r="3.5" fill="#F28DA8"/>`;
+  return `<svg viewBox="0 0 120 116" role="img" aria-label="${esc(p.name)} đang ${esc((PET_MOOD.find(x=>x.k===m)||{}).n||"vui").toLowerCase()}">
+    <ellipse cx="60" cy="110" rx="34" ry="5" fill="#000" opacity=".08"/>
+    <circle cx="32" cy="36" r="12" fill="${c}"/><circle cx="88" cy="36" r="12" fill="${c}"/>
+    <circle cx="32" cy="36" r="6" fill="#F7A9B8" opacity=".6"/><circle cx="88" cy="36" r="6" fill="#F7A9B8" opacity=".6"/>
+    <ellipse cx="60" cy="66" rx="40" ry="38" fill="${c}"/>
+    <ellipse cx="60" cy="82" rx="22" ry="16" fill="#fff" opacity=".45"/>
+    <circle cx="36" cy="72" r="5" fill="#F48FA6" opacity=".55"/><circle cx="84" cy="72" r="5" fill="#F48FA6" opacity=".55"/>
+    ${brow}${eyes}${mouth}${acc}</svg>`;
+}
+function treeStage(n){let s=0;TREE_AT.forEach((a,i)=>{if(n>=a)s=i});return s}
+function treeSVG(w){
+  const s=treeStage(w);let g="";
+  if(s===0)g=`<ellipse cx="60" cy="74" rx="5" ry="3.5" fill="#8A5A34"/>`;
+  if(s>=1)g+=`<path d="M60 76 V${s===1?60:s===2?44:34}" stroke="#4E8B3A" stroke-width="${s>=3?6:3}" stroke-linecap="round"/>`;
+  if(s===1)g+=`<path d="M60 64 q-12 -4 -14 -14 q12 0 14 14z M60 62 q12 -4 14 -14 q-12 0 -14 14z" fill="#6DBA57"/>`;
+  if(s===2)g+=`<path d="M60 56 q-16 -2 -18 -16 q16 0 18 16z M60 50 q16 -2 18 -16 q-16 0 -18 16z M60 62 q-12 0 -16 -8 q12 -2 16 8z M60 60 q12 0 16 -8 q-12 -2 -16 8z" fill="#6DBA57"/>`;
+  if(s>=3)g+=`<circle cx="60" cy="30" r="26" fill="#6DBA57"/><circle cx="42" cy="40" r="16" fill="#5FAE4B"/><circle cx="78" cy="40" r="16" fill="#5FAE4B"/>`;
+  if(s===4)g+=[[48,24],[70,20],[60,38],[40,42],[80,42],[66,32]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#F28DA8"/><circle cx="${x}" cy="${y}" r="1.5" fill="#FFE07A"/>`).join("");
+  return `<svg viewBox="0 0 120 112" role="img" aria-label="Cây yêu thương, giai đoạn ${s+1} trên 5">
+    <path d="M36 76 h48 l-6 30 h-36z" fill="#D98C5F"/><rect x="32" y="72" width="56" height="8" rx="3" fill="#C27448"/>
+    <ellipse cx="60" cy="76" rx="24" ry="3" fill="#6B4A2F"/>${g}</svg>`;
+}
+const TREE_STAGE=["Hạt giống","Mầm non","Cây non","Cây lớn","Cây nở hoa"];
+function dishSVG(key){
+  const d=DISH[key],c=d.c;
+  return `<svg viewBox="0 0 80 64" aria-hidden="true"><path d="M30 12 q-4 -6 0 -10M42 12 q-4 -6 0 -10M54 12 q-4 -6 0 -10" stroke="#C9B9A6" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+    <ellipse cx="40" cy="26" rx="32" ry="9" fill="${c}"/><path d="M8 26 Q40 72 72 26 Z" fill="#FFFFFF" stroke="#D9CFC2" stroke-width="1.5"/><path d="M14 36 Q40 50 66 36" stroke="#6E9FD6" stroke-width="2.5" fill="none"/></svg>`;
+}
+const lockSVG=`<svg viewBox="0 0 80 64" aria-hidden="true"><ellipse cx="40" cy="34" rx="30" ry="24" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 5"/><g transform="translate(28 22)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="10" width="18" height="13" rx="3"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></g></svg>`;
+
+/* =========================================================
+   CÁC MÀN HÌNH
+   ========================================================= */
+const top=(title,back=true,extra="")=>`<div class="top">${back?`<button class="back" data-a="back" aria-label="Quay lại">${ic("back")}</button>`:""}<h2>${title}</h2>${extra}</div>`;
+const heartsBtn=()=>`<button class="hearts" data-a="go" data-v="garden" aria-label="${S.hearts} nhịp thương, mở vườn nhà">${ic("heart","ic")}${S.hearts}</button>`;
+const VIEWS={};
+
+VIEWS.welcome=()=>`
+ <div class="hero">
+   <div class="logo"><svg viewBox="0 0 46 46" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26h8l4-8 7-12 7 12 4 8h8"/><path d="M14 22v16h18V22"/></svg></div>
+   <h1>Nhịp Nhà</h1>
+   <p class="tagline">Mỗi nhịp chạm, thêm một nhịp thương.</p>
+   <p class="muted" style="max-width:46ch">Không gian giúp học sinh nội trú và gia đình nhận ra nhịp kết nối của nhà mình, rồi cùng nhau chỉnh lại qua hành trình CHẠM 4 tuần.</p>
+ </div>
+ <div class="card tint t-brand" style="text-align:center"><p class="core">Không cần thay đổi tất cả trong một ngày.<br>Chỉ cần mỗi ngày hiểu nhau thêm một chút.</p></div>
+ <button class="btn block" data-a="go" data-v="role">Bắt đầu</button>
+ <p style="text-align:center"><button class="link" data-a="go" data-v="about">Tìm hiểu mô hình CHẠM</button></p>
+ <p class="small muted" style="text-align:center">Đề tài nghiên cứu khoa học · Trường THPT FPT Cần Thơ</p>`;
+
+VIEWS.role=()=>`
+ ${top("Bạn là ai trong ngôi nhà này?")}
+ <p class="muted">Mỗi vai trò có giao diện và bộ câu hỏi riêng. Bạn có thể dùng một mình, người kia không cần dùng cùng.</p>
+ <div class="roles2 stack"><button class="role t-blue" data-a="role" data-v="hs"><span class="av" style="color:var(--blue)">${ic("grad")}</span><span><b>Mình là học sinh nội trú</b><span>Không gian cảm xúc và những điều muốn kể.</span></span><span class="chev">›</span></button>
+ <button class="role t-brand" data-a="role" data-v="ph"><span class="av" style="color:var(--brand)">${ic("home")}</span><span><b>Mình là phụ huynh / người chăm sóc</b><span>Khám phá cách lắng nghe và đồng hành cùng con.</span></span><span class="chev">›</span></button></div>`;
+
+VIEWS.setup=()=>`
+ ${top("Trước khi bắt đầu")}
+ <div class="card">
+   <h3>Nhịp Nhà dùng để làm gì?</h3>
+   <p>Bộ câu hỏi giúp ${isHS()?"bạn":"bố mẹ"} nhìn lại cách trò chuyện trong gia đình và gợi ý một hành trình 4 tuần phù hợp. Câu hỏi chỉ giúp nhận diện nhu cầu hỗ trợ, không đánh giá ai đúng ai sai và không dùng để chẩn đoán.</p>
+   <div class="priv">${ic("lock")}<p><b>Dữ liệu được lưu:</b> câu trả lời, thời điểm làm phiếu, kết quả và tiến trình hành trình. Tất cả chỉ nằm trên thiết bị này, không gửi đi đâu.</p></div>
+   <div class="priv">${ic("eye")}<p><b>Kết quả là của riêng bạn.</b> Người thân không xem được nếu bạn không tự chọn chia sẻ.</p></div>
+   <div class="priv">${ic("check")}<p><b>Bạn có quyền bỏ qua</b> bất kỳ câu hỏi, nhiệm vụ hay tuần nào, và xóa dữ liệu bất cứ lúc nào.</p></div>
+   <p class="small muted">Web là công cụ sàng lọc, không thay thế tư vấn.</p>
+ </div>
+ <div class="card">
+   <label class="lbl" for="nick">Biệt danh của bạn</label>
+   <input type="text" id="nick" data-bind="nick" maxlength="24" placeholder="${isHS()?"Ví dụ: Mèo Lười":"Ví dụ: Mẹ Bông"}" value="${esc(S.nick)}">
+   <span class="lbl">Chọn hình đại diện</span>
+   <div class="avatars">${AV.map(a=>`<button class="avatar" data-a="av" data-v="${a}" aria-pressed="${S.av===a}" aria-label="Hình đại diện ${a}">${a}</button>`).join("")}</div>
+ </div>
+ <div class="card tint t-yellow">
+   <div class="step" data-on="${S.consent?1:0}" style="background:transparent;padding:0"><button class="box" data-a="consent" role="checkbox" aria-checked="${!!S.consent}" aria-label="Đồng ý tham gia">${S.consent?ic("check"):""}</button>
+   <div><b>Mình đã đọc và đồng ý tham gia</b><p>${isHS()?"Nếu bạn dưới 18 tuổi, việc tham gia thực hiện theo quy định về sự đồng ý của nhà trường.":"Tôi hiểu đây là công cụ sàng lọc và có thể dừng bất cứ lúc nào."}</p></div></div>
+ </div>
+ <button class="btn block" data-a="finishSetup" ${S.consent?"":"disabled"}>Vào nhà</button>`;
+
+
+function nest(svg,x,y,w,h){return svg.replace("<svg ",`<svg x="${x}" y="${y}" width="${w}" height="${h}" `)}
+function houseState(){
+  const l=curLevel();if(!l)return {l:null,lit:[0,0,0,0],fire:false,all:false,w:0};
+  const s=jr(l),w=curWeek(l),lit=[0,1,2,3].map(i=>!!s.done[i]);
+  const fire=w>=4||!!(s.days[w]||{})[dayToday(l,w)];
+  return {l,lit,fire,all:w>=4,w};
+}
+function houseSVG(){
+  const h=houseState(),WIN=[[138,150],[138,196],[232,150],[232,196]];
+  const win=WIN.map(([x,y],i)=>{const on=h.lit[i];return `
+    ${on?`<circle cx="${x+15}" cy="${y+15}" r="30" fill="var(--win-on)" opacity=".28"/>`:""}
+    <rect x="${x}" y="${y}" width="30" height="30" rx="5" fill="${on?"var(--win-on)":"var(--win-off)"}" stroke="var(--wall-line)" stroke-width="2"/>
+    <path d="M${x+15} ${y} v30 M${x} ${y+15} h30" stroke="var(--wall-line)" stroke-width="2"/>
+    <text x="${x+8}" y="${y+12}" font-family="Baloo 2,system-ui" font-weight="800" font-size="10" fill="${on?"#8A5A12":"var(--wall-line)"}">${LET[i]}</text>`}).join("");
+  const smoke=h.fire?`<g class="smoke"><circle cx="252" cy="62" r="7"/><circle cx="258" cy="62" r="9"/><circle cx="250" cy="62" r="6"/></g>`:"";
+  const garland=h.all?[[110,134],[130,118],[150,102],[170,86],[190,72],[210,72],[230,86],[250,102],[270,118],[290,134]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="4.5" fill="${["#FFD36E","#FF9AA8","#9CC8FF","#C7B2FF"][i%4]}"/>`).join(""):"";
+  const pet=nest(petSVG(S.pet),18,168,96,93),tree=nest(treeSVG(totalDays()),298,128,104,97);
+  return `<svg class="house" viewBox="0 0 420 290" role="img" aria-label="Ngôi nhà của bạn: ${h.lit.filter(Boolean).length} trên 4 cửa sổ đã sáng${h.fire?", bếp đang đỏ lửa":""}">
+    <circle cx="66" cy="54" r="26" fill="var(--sun)" opacity=".9"/><circle cx="66" cy="54" r="40" fill="var(--sun)" opacity=".18"/>
+    <ellipse cx="210" cy="272" rx="210" ry="34" fill="var(--ground)"/>
+    <path d="M200 252 q-6 12 -2 30 h24 q4 -18 -2 -30z" fill="var(--path)" opacity=".8"/>
+    <rect x="236" y="76" width="24" height="46" rx="3" fill="var(--roof-d)"/>${smoke}
+    <rect x="118" y="128" width="184" height="126" rx="10" fill="var(--wall)" stroke="var(--wall-line)" stroke-width="2"/>
+    <path d="M96 140 L210 58 L324 140 Z" fill="var(--roof)" stroke="var(--roof-d)" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="210" cy="108" r="15" fill="var(--wall)" stroke="var(--roof-d)" stroke-width="2.5"/>
+    <path d="M210 116 c-6-4-9-7-9-10.5a4.5 4.5 0 0 1 9-1.5 4.5 4.5 0 0 1 9 1.5c0 3.5-3 6.5-9 10.5z" fill="${h.l?"var(--roof)":"var(--win-off)"}"/>
+    ${garland}${win}
+    <g data-a="go" data-v="journey" role="button" tabindex="0" aria-label="Mở hành trình" class="hot-spot">
+      <path d="M190 254 v-48 a20 20 0 0 1 40 0 v48z" fill="var(--door)"/><circle cx="222" cy="232" r="2.6" fill="var(--win-on)"/>
+      <rect x="196" y="212" width="28" height="3" rx="1.5" fill="var(--win-on)" opacity=".5"/></g>
+    <g data-a="go" data-v="garden" role="button" tabindex="0" aria-label="Mở vườn nhà" class="hot-spot">${pet}${tree}</g>
+  </svg>`;
+}
+VIEWS.home=()=>{
+  const r=last(),h=houseState(),l=h.l,L=l?LV[l-1]:null;
+  let side;
+  if(!r) side=`<div class="card tint t-brand"><p class="eyebrow">Bước đầu tiên</p><h2>Nhịp nhà mình dạo này thế nào?</h2><p>${ORDER.length} câu hỏi ngắn, khoảng 5–7 phút. Kết quả gợi ý hành trình phù hợp với nhà bạn và thắp sáng ngôi nhà này.</p><button class="btn block bigcheck" data-a="startSurvey">Đo nhịp nhà</button></div>`;
+  else if(h.w<4) side=S.set.remind?dailyCard(l,h.w,true):`<button class="card tint t-yellow" style="text-align:left" data-a="openWeek" data-v="${h.w}"><p class="eyebrow">Tuần ${h.w+1}</p><h3>${esc(J[l][h.w].t)}</h3><p class="small">Mở để đánh dấu ngày hôm nay.</p></button>`;
+  else side=`<div class="card tint t-blue"><p class="eyebrow">Hành trình đã xong</p><h2>Đã đến lúc đo nhịp lại</h2><p>Bạn đã đi qua 4 tuần của “${L.title}”. Đo lại để biết nhịp nhà đã thay đổi thế nào và mở hành trình tiếp theo.</p><button class="btn block bigcheck" data-a="startSurvey">Đo nhịp lại</button></div>`;
+  const lit=h.lit.filter(Boolean).length,stage=TREE_STAGE[treeStage(totalDays())];
+  return `
+   <div class="top"><div style="flex:1;min-width:0"><p class="muted small">Chào ${esc(S.nick||"bạn")} ${esc(S.av)}, hôm nay mình cùng cố gắng nhé!</p><h2>Ngôi nhà của mình</h2></div>${heartsBtn()}</div>
+   ${r&&r.unsafe?`<div class="alert"><h3>Bạn không phải một mình</h3><p>Nếu bạn cảm thấy không an toàn, hãy nói với thầy cô hoặc gọi 111 (miễn phí, 24/7).</p><button class="btn quiet" data-a="go" data-v="support">Trạm hỗ trợ</button></div>`:""}
+   <div class="g2 wide-l">
+     <div class="card house-card">
+       <div class="row" style="justify-content:space-between">${L?`<span class="lvbadge"><i style="background:${L.col}"></i>${L.name} · ${L.title}</span>`:`<span class="lvbadge"><i style="background:var(--muted)"></i>Chưa đo nhịp</span>`}${l&&h.w<4?`<span class="small muted">Tuần ${h.w+1}/4</span>`:""}</div>
+       ${houseSVG()}
+       <div class="legend">
+         <span><i style="background:var(--win-on)"></i>Cửa sổ sáng <b>${lit}/4</b></span>
+         <span><i style="background:var(--roof)"></i>${h.fire?"Bếp đang đỏ lửa":"Bếp chờ bạn hôm nay"}</span>
+         <span><i style="background:var(--l1)"></i>${stage}</span>
+       </div>
+       <p class="small muted">Mỗi tuần hoàn thành, một cửa sổ C·H·A·M sáng lên. Khói bếp bay lên khi bạn giữ nhịp hôm nay. Chạm vào cửa để mở hành trình, chạm Bé Chạm hoặc cây để vào vườn.</p>
+     </div>
+     <div class="col">${side}
+       <div class="card tint t-pink"><p class="core">Không cần thay đổi tất cả trong một ngày. Chỉ cần mỗi ngày hiểu nhau thêm một chút.</p></div>
+       ${r?`<button class="btn ghost block" data-a="nav" data-v="journey">Xem hành trình & hoạt động</button>`:""}
+     </div>
+   </div>`;
+};
+VIEWS.journey=()=>{
+  const l=curLevel();
+  const tools=`<h3 style="margin-top:6px">Góc hoạt động</h3>
+   <div class="tiles">
+     ${isHS()?`<button class="tile t-pink" data-a="diary" data-v="secret">${ic("chat")}<b>Điều con chưa nói</b><span>Góc riêng tư của bạn</span></button>`:`<button class="tile t-pink" data-a="diary" data-v="secret">${ic("chat")}<b>Góc lắng nghe</b><span>Ghi chép riêng của bạn</span></button>`}
+     <button class="tile t-yellow" data-a="diary" data-v="thanks">${ic("heart")}<b>Nhật ký lòng biết ơn</b><span>Cảm ơn và xin lỗi</span></button>
+     <button class="tile t-violet" data-a="go" data-v="garden">${ic("paw")}<b>Vườn nhà</b><span>Bé Chạm và cây yêu thương</span></button>
+     <button class="tile t-peach" data-a="go" data-v="moments">${ic("camera")}<b>Chạm khoảnh khắc</b><span>Thử thách chụp ảnh</span></button>
+     <button class="tile wide t-blue" data-a="go" data-v="library">${ic("book")}<span style="display:grid"><b>Cẩm nang & câu mở lời</b><span>Bài đọc ngắn, gợi ý mở đầu câu chuyện</span></span><span class="chev">›</span></button>
+     <button class="tile wide t-brand" data-a="go" data-v="support">${ic("shield")}<span style="display:grid"><b>Trạm hỗ trợ</b><span>Thầy cô, phòng tư vấn, đường dây 111</span></span><span class="chev">›</span></button>
+   </div>`;
+  if(!l) return `<div class="top"><div style="flex:1"><p class="eyebrow">Hành trình CHẠM · 4 tuần</p><h2>Hành trình đang chờ bạn</h2></div>${heartsBtn()}</div>
+   <div class="card tint t-brand"><div class="row">${ic("lock")}<h3>Đo nhịp để mở hành trình</h3></div><p>Mỗi nhà có một nhịp riêng. Sau khi đo, Nhịp Nhà mở đúng một hành trình 4 tuần phù hợp với nhịp của bạn.</p><button class="btn" data-a="startSurvey">Đo nhịp nhà</button></div>${tools}`;
+  const L=LV[l-1],s=jr(l),w=curWeek(l),done=Object.keys(s.done).length,passed=[0,1,2,3].filter(i=>s.done[i]||s.skip[i]).length,round=(S.hist[S.role]||[]).length,r=last();
+  return `
+   <div class="top"><div style="flex:1;min-width:0"><p class="eyebrow">Hành trình CHẠM · Lần ${round}</p><h2 style="color:${L.col}">${L.title}</h2></div>${heartsBtn()}</div>
+   <div class="row"><span class="lvbadge"><i style="background:${L.col}"></i>${L.name}</span><span class="small muted">${L.for}</span></div>
+   ${L.intro?`<div class="card tint t-pink"><p>${L.intro}</p></div>`:""}
+   <details class="art"><summary><b>${l===r.lv?"Nhịp được gợi ý cho bạn":"Bạn đã đổi từ nhịp gợi ý ("+LV[r.lv-1].name+")"} · Đổi nhịp</b><span class="chev">›</span></summary><div class="bd">
+     <p class="small"><b>Vì sao gợi ý ${LV[r.lv-1].name}:</b> ${whyText(r,r.lv)}</p>
+     <div class="chips">${LV.map(x=>`<button class="chip" data-a="changeLv" data-v="${x.n}" aria-pressed="${l===x.n}">${x.name}${x.n===r.lv?" · gợi ý":x.n<r.lv?" · nhẹ hơn":" · nặng hơn"}</button>`).join("")}</div>
+     <p class="small muted">Mỗi nhịp có tiến trình riêng; đổi qua lại không làm mất những gì bạn đã làm.</p></div></details>
+   <div class="g2 wide-l"><div class="col">
+     <div class="weeks" style="grid-template-columns:1fr">${J[l].map((wk,i)=>{const st=s.done[i]?"done":s.skip[i]?"skip":i===w?"now":"open";return `
+       <button class="wk" data-a="openWeek" data-v="${i}"><span class="let L-${LET[i]}">${LET[i]}</span><span style="min-width:0"><small>Tuần ${i+1} · ${LETN[LET[i]]} · ${daysDone(l,i)}/7 ngày</small><b>${esc(wk.t)}</b>${wk.dish?`<small>Món mở khóa: ${s.done[i]?esc(dishName(l,i)):"???"}</small>`:""}</span><span class="st st-${st==="skip"?"open":st}">${st==="done"?"Đã xong":st==="skip"?"Đã bỏ qua":st==="now"?"Tuần này":"Mở"}</span></button>`}).join("")}</div>
+   </div><div class="col">
+     <button class="tile wide t-peach" data-a="go" data-v="meal" style="grid-column:auto">${ic(l===4?"medal":"bowl")}<span style="display:grid"><b>${l===4?"Huy hiệu “Nhịp nhà bền lâu”":"Mâm cơm gia đình"}</b><span>${l===4?(done===4?"Đã nhận huy hiệu":`${done}/4 tuần`):`${done}/4 món đã mở khóa`}</span></span><span class="chev">›</span></button>
+     ${passed===4?`<div class="card tint t-blue"><h3>Khép lại hành trình gắn kết – Mở ra những yêu thương bền chặt mỗi ngày</h3><p>Đo nhịp lại để xem nhịp nhà đã thay đổi. Nếu nhà bạn đã khá hơn nhiều, hành trình tiếp theo có thể nhảy lên vài bậc.</p><button class="btn" data-a="startSurvey">Đo nhịp lại</button></div>`
+       :`<div class="card"><div class="row">${ic("lock")}<h3>Đo nhịp lại sau 4 tuần</h3></div><p class="small muted">Còn ${4-passed} tuần (hoàn thành hoặc bỏ qua) rồi Nhịp Nhà sẽ mời bạn làm lại ${ORDER.length} câu. Kết quả mới gợi ý nhịp tiếp theo: giữ nguyên, tiến một bậc hoặc tiến nhiều bậc.</p></div>`}
+   </div></div>
+   ${tools}`;
+};
+
+function whoCard(){const r=S.role,w=S.who[r]||{},hs=r==="hs";
+  const sample=hs?ITEMS.find(x=>x.c==="OP2").hs:ITEMS.find(x=>x.c==="OP1").ph;
+  return `<div class="card tint t-violet"><h3>${hs?"Khi trả lời, bạn đang nghĩ về ai?":"Bạn là ai với con?"}</h3>
+   <p class="small">${hs?"Chọn người bạn thường trò chuyện nhất. Câu hỏi sẽ gọi đúng người đó để bạn dễ hình dung hơn.":"Câu hỏi sẽ xưng hô đúng như ở nhà để bạn dễ hình dung hơn."}</p>
+   <div class="chips">${WHO[r].map(o=>`<button class="chip" data-a="whoPick" data-v="${o}" aria-pressed="${w.pick===o}">${o==="Bố mẹ"?"Cả bố và mẹ":o}</button>`).join("")}<button class="chip" data-a="whoPick" data-v="Khác" aria-pressed="${w.pick==="Khác"}">Người khác</button></div>
+   ${w.pick==="Khác"?`<label class="lbl" for="whoc">${hs?"Bạn gọi người đó là gì?":"Con gọi bạn là gì?"}</label><input type="text" id="whoc" data-bind="whoCustom" maxlength="20" placeholder="Ví dụ: Cậu, Mợ, Thím, Dượng…" value="${esc(w.custom||"")}">`:""}
+   ${hs?"":`<label class="lbl" for="whochild">Tên gọi ở nhà của con (không bắt buộc)</label><input type="text" id="whochild" data-bind="whoChild" maxlength="20" placeholder="Ví dụ: Bông, Tí, Su…" value="${esc(w.child||"")}">`}
+   <div class="entry"><span class="small muted">Câu hỏi sẽ hiện như thế này</span><p id="whoPreview">“${esc(qText(sample))}”</p></div>
+  </div>`}
+function svSteps(){return ["intro","ctx","p0","p1","p2","p3"].concat(isHS()?["safe"]:[]).concat(["need","review"])}
+function pageItems(p){let a=0;for(let i=0;i<p;i++)a+=PAGE_SIZES[i];return ORDER.slice(a,a+PAGE_SIZES[p])}
+const capF=t=>t?t.charAt(0).toUpperCase()+t.slice(1):t;
+function whoTerm(role){const w=(S.who||{})[role||S.role]||{};const t=w.pick==="Khác"?(w.custom||"").trim():(w.pick||"");return t?capF(t):""}
+function childName(){return ((S.who||{}).ph||{}).child?S.who.ph.child.trim():""}
+function personalized(role){role=role||S.role;return !!whoTerm(role)||(role==="ph"&&!!childName())}
+// Đổi đại từ trong câu theo người được chọn; không chọn thì giữ nguyên văn bản bản 3
+function qText(t,role){role=role||S.role;const who=whoTerm(role);
+  if(role==="hs"){if(who)t=t.replace(/[Cc]ha mẹ/g,who);return t}
+  if(who)t=t.replace(/(^|[\s(])[Tt]ôi(?=[\s,.?!)]|$)/g,(m,p)=>p+who);
+  const c=childName();if(c)t=t.replace(/(^|[\s(])[Cc]on(?=[\s,.?!)]|$)/g,(m,p)=>p+c);
+  return t}
+const answered=sv=>ORDER.filter(c=>typeof sv.ans[c]==="number").length;
+function qCard(code,text,cur,group,num){
+  return `<div class="card qcard" id="q-${code}"><p class="qtext"><b class="qn">${num}</b>${esc(text)}</p>
+   <div class="opts5" role="radiogroup" aria-label="Câu ${num}">${SCALE5.map((l,v)=>`<button class="o5" role="radio" aria-checked="${cur===v+1}" aria-pressed="${cur===v+1}" data-a="pick" data-v="${group}|${code}|${v+1}"><b>${v+1}</b><span>${l}</span></button>`).join("")}</div></div>`;
+}
+const legend5=`<div class="legend5">${SCALE5.map((l,i)=>`<span><b>${i+1}</b> ${l}</span>`).join("")}</div>`;
+VIEWS.survey=()=>{
+  const sv=V.sv,steps=svSteps(),st=steps[sv.k],n=ORDER.length,done=answered(sv);
+  const nav=(next="Tiếp tục",dis=false)=>`<div class="sv-nav"><button class="btn quiet" data-a="svBack">${ic("back")} Quay lại</button><button class="btn" data-a="svNext" ${dis?"disabled":""}>${next}</button></div>`;
+  const bar=`<div class="sv-head"><div class="track" aria-label="${done} trên ${n} câu"><i style="width:${done/n*100}%"></i></div><span class="small muted" style="font-variant-numeric:tabular-nums">${done}/${n} câu</span></div>`;
+  if(st==="intro") return `${top("",true)}
+     <p class="eyebrow">Nhịp Nhà · Phiếu ${QVER}</p><h1>Nhịp nhà mình dạo này thế nào?</h1>
+     <p class="muted">${isHS()?"Chào bạn! Chúng mình muốn hiểu hơn về trải nghiệm của bạn khi trò chuyện với gia đình. Câu trả lời không có mục đích đánh giá bạn hay bố mẹ.":"Chào bố mẹ! Bộ câu hỏi giúp tìm hiểu cách bố mẹ và con trò chuyện với nhau thời gian gần đây. Không có câu trả lời đúng hay sai. Mục đích là tìm ra cách đồng hành phù hợp hơn."}</p>
+     ${whoCard()}
+     <div class="card tint t-brand"><h3>${n} câu · khoảng 5–7 phút</h3><p>Mỗi trang 5–6 câu. Đọc từng câu và chọn mức đúng với ${isHS()?"bạn":"gia đình mình"}. Câu nào không muốn trả lời, bạn cứ bỏ trống.</p></div>
+     <div class="card">${legend5}</div>
+     <div class="card"><h3>Sau khi làm xong, bạn sẽ nhận được</h3><ul class="list"><li>Nhịp nhà nhìn từ phía bạn và hồ sơ bốn thang.</li><li>Điều đang làm tốt và điều cần quan tâm.</li><li>Một hành trình 4 tuần gợi ý, bạn có thể đổi nếu muốn.</li></ul></div>
+     <button class="btn block" data-a="svNext">Bắt đầu</button>`;
+  if(st==="ctx") return `${top(isHS()?"Một chút về bạn":"Một chút về gia đình",false)}
+     <p class="muted">Không bắt buộc. Thông tin này giúp gợi ý phù hợp hơn và phục vụ nghiên cứu.</p>
+     ${CTX.map(q=>`<div class="card"><span class="lbl">${q[S.role]}</span><div class="chips">${q.o.map(o=>`<button class="chip" data-a="ctx" data-v="${q.k}|${esc(o)}" aria-pressed="${S.ctx[q.k]===o}">${esc(o)}</button>`).join("")}</div></div>`).join("")}
+     ${nav("Tiếp tục")}`;
+  if(st[0]==="p"){const p=+st[1],its=pageItems(p);let base=0;for(let i=0;i<p;i++)base+=PAGE_SIZES[i];
+    return `${bar}<p class="eyebrow">Trang ${p+1}/${PAGE_SIZES.length}</p><div class="card legend-card">${legend5}</div>
+     ${its.map((c,i)=>qCard(c,qText(ITEMS.find(x=>x.c===c)[S.role]),sv.ans[c],"ans",base+i+1)).join("")}${nav(p===PAGE_SIZES.length-1?"Xong phần chính":"Trang tiếp")}`}
+  if(st==="safe") return `${bar}<p class="eyebrow" style="color:var(--pink)">Ba câu thêm · bạn có thể bỏ qua</p>
+     <h2>Thêm một chút về cảm giác của bạn</h2><p class="muted">Ba câu này giúp Nhịp Nhà biết khi nào nên gợi ý người đồng hành cho bạn. Bạn có thể bỏ qua.</p>
+     ${SAFE.map((q,i)=>qCard(q.c,qText(q.t),sv.safe[q.c],"safe","+"+(i+1))).join("")}${nav("Tiếp tục")}`;
+  if(st==="need") return `${bar}<p class="eyebrow">Tùy chọn</p><h2>Bạn có cần thêm hỗ trợ không?</h2><p class="muted">Bốn câu này chỉ dùng để gợi ý nguồn hỗ trợ, không tính vào kết quả.</p>
+     ${NEED[S.role].map((q,i)=>qCard(q.c,qText(q.t),sv.need[q.c],"need","F"+(i+1))).join("")}${nav("Xem lại")}`;
+  const {miss}=scaleScores(sv.ans);
+  return `${top("Sắp xong rồi",false)}
+     <div class="track"><i style="width:${done/n*100}%"></i></div>
+     <div class="card"><h3>Bạn đã trả lời ${done}/${n} câu</h3>
+     ${miss.length?`<p>Bạn còn một vài câu chưa trả lời, trả lời thêm để có kết quả đầy đủ hơn.</p><div class="chips">${miss.map(k=>`<button class="chip" data-a="svGoScale" data-v="${k}">Trả lời thêm phần “${SCALES[k].n}”</button>`).join("")}</div>`
+      :`<p>Cảm ơn bạn đã dành thời gian. Bấm nút dưới đây để xem bản đồ kết nối của nhà mình.</p>`}</div>
+     <button class="btn block" data-a="svFinish" ${miss.length?"disabled":""}>Xem nhịp nhà của mình</button>
+     <button class="btn quiet block" data-a="svBack">Quay lại</button>`;
+};
+
+function compareCard(r){
+  if(!r.prevRaw)return "";
+  const word=k=>{const d=r.raw[k]-r.prevRaw[k];return Math.abs(d)<0.05?"không đổi":d>0?"tăng":"giảm"};
+  const a=LV[r.from-1],b=LV[r.lv-1];
+  return `<div class="card tint t-blue"><p class="eyebrow" style="color:var(--blue)">So với lần đo trước</p>
+   <h2><span style="color:${a.col}">${a.name}</span> → <span style="color:${b.col}">${b.name}</span></h2>
+   <div class="cmp">${Object.keys(SCALES).map(k=>{const w=word(k);return `<div><span>${SCALES[k].n}</span><b>${w==="tăng"?"↑":w==="giảm"?"↓":"→"} ${w}</b></div>`}).join("")}</div>
+   <p class="small muted">Cởi mở và Chủ động kể tăng là tín hiệu tốt; Né tránh và Rào cản giảm là tín hiệu tốt.</p></div>`;
+}
+function whyText(r,lv){
+  if(r.flag&&lv===4)return isHS()?"Một vài câu trả lời của bạn cho thấy lúc này bạn nên có thêm người đồng hành, nên Nhịp Nhà gợi ý hành trình nhẹ nhàng, ưu tiên điểm tựa an toàn.":"Nhịp Nhà gợi ý hành trình này dựa trên các câu trả lời của bạn.";
+  const L=LV[lv-1],lo=lv===1?null:LV[lv-2].max;
+  return `Chỉ số CRI của bạn là ${r.cri.toFixed(2)}, nằm trong khoảng ${lo==null?"dưới 2,5":lv===4?"từ 3,5 trở lên":`từ ${String(lo).replace(".",",")} đến dưới ${String(L.max).replace(".",",")}`}. Thang cần quan tâm nhất: ${SCALES[r.worst].n}.`;
+}
+function resultBody(r,showActions){
+  const L=LV[r.lv-1],role=r.role,pick=V.pick||S.choice[(role)+":"+((S.hist[role]||[]).length)]||r.lv;
+  const tips=NEED[role].map(q=>{const v=r.need[q.c],t=NEED_TIP[role][q.c];if(typeof v!=="number")return null;if(t.low?v<=2:v>=4)return t;return null}).filter(Boolean);
+  const brItem=r.brTop?qText(ITEMS.find(i=>i.c===r.brTop)[role],role):null;
+  return `
+   ${r.flag?`<div class="alert"><h3>Bạn không phải đối mặt một mình</h3><p>${SAFE_MSG}</p>
+     <div class="stack" style="gap:6px">${SCHOOL_CONTACTS.map(c=>`<p class="small"><b>${c.r}</b> · ${c.how}</p>`).join("")}</div>
+     <div class="row"><button class="btn" data-a="go" data-v="support">Đặt lịch gặp tư vấn</button><span class="n111">111</span></div></div>`:""}
+   ${compareCard(r)}
+   <div class="card">
+     <p class="eyebrow">Bản đồ kết nối · Nhịp nhà nhìn từ phía bạn</p>
+     <span class="lvbadge" style="background:var(--bg)"><i style="background:${L.col}"></i>${L.name} · ${L.title}</span>
+     <div class="lvname" style="color:${L.col}">${L.head[role]}</div>
+     <p>${L.desc[role]}</p>
+     ${wave(r.lv,L.col)}
+     <div class="scale4">${LV.map(l=>`<div class="${l.n===r.lv?"on":""}"><i style="background:${l.col}"></i>${l.name}</div>`).join("")}</div>
+     <p class="small muted">Chỉ số CRI <b style="font-variant-numeric:tabular-nums">${r.cri.toFixed(2)}</b> (thang 1–5) · ${esc(r.date)} · Lần ${r.attempt}</p>
+   </div>
+   <div class="g2"><div class="col">
+     <div class="card"><h3>Hồ sơ bốn thang</h3><p class="small muted">Thanh càng dài là điều càng cần quan tâm (thang 1–5).</p>
+       ${Object.keys(SCALES).map(k=>`<div class="dim"><span>${SCALES[k].show}</span><div class="track"><i style="width:${(r.disp[k]-1)/4*100}%;background:${L.col}"></i></div><b>${r.disp[k].toFixed(1)}</b></div>`).join("")}
+       ${brItem?`<div class="entry"><span class="small muted">Điều cản trở bạn chọn rõ nhất</span><p>“${esc(brItem)}”</p></div>`:""}</div>
+     ${tips.length?`<div class="card tint t-violet"><h3>Gợi ý hỗ trợ cho bạn</h3><ul class="tips">${tips.map(t=>`<li>${esc(t.t)} ${goBtn(t.go,"link")}</li>`).join("")}</ul></div>`:""}
+   </div><div class="col">
+     <div class="card tint t-brand"><h3>Điều đang làm tốt</h3><p>${r.disp[r.best]>=3.5?(role==="hs"?"Bạn đã dành thời gian nhìn lại cách trò chuyện với gia đình. Đó đã là một bước quan trọng.":"Bố mẹ đã dành thời gian nhìn lại cách trò chuyện với con. Đó đã là một bước quan trọng."):GOOD[role][r.best]+"."}</p></div>
+     <div class="card tint t-yellow"><h3>Điều cần quan tâm</h3><p>${r.disp[r.worst]<2?"Không có thang nào cần quan tâm nhiều. Hãy giữ những thói quen tốt đang có.":CARE[role][r.worst]+"."}</p></div>
+     <button class="btn quiet" data-a="shareRes">${ic("mail")} Chia sẻ kết quả (không kèm câu trả lời)</button>
+   </div></div>
+   ${showActions?`<div class="card">
+     <p class="eyebrow">Chọn hành trình</p><h3>Gợi ý: ${L.name} · ${L.title}</h3>
+     <p class="small"><b>Vì sao gợi ý:</b> ${whyText(r,r.lv)}</p><p class="small muted">${L.hint}</p>
+     <span class="lbl">Bạn có thể đổi sang nhịp nhẹ hơn hoặc nặng hơn</span>
+     <div class="chips">${LV.map(x=>`<button class="chip" data-a="pickLv" data-v="${x.n}" aria-pressed="${pick===x.n}">${x.name}${x.n===r.lv?" · gợi ý":x.n<r.lv?" · nhẹ hơn":" · nặng hơn"}</button>`).join("")}</div>
+     <button class="btn block" data-a="startJourney" data-v="${pick}">Bắt đầu hành trình “${LV[pick-1].title}”</button>
+   </div>`:""}
+   <p class="note">${RESULT_NOTE}</p>`;
+}
+VIEWS.result=()=>`${top("Kết quả đo nhịp",false)}${resultBody(V.res||last(),true)}`;
+
+// Thẻ "hôm nay" và dải 7 ngày dùng chung cho Trang chủ và màn Tuần
+function dayStrip(l,w){
+  const s=jr(l),d=s.days[w]||{},td=dayToday(l,w);
+  return `<div class="days" role="group" aria-label="7 ngày của tuần ${w+1}">${[1,2,3,4,5,6,7].map(n=>{const on=!!d[n],fut=n>td;return `<button class="day${n===td?" today":""}" data-a="tick" data-v="${w}-${n}" aria-pressed="${on}" ${fut?"disabled":""} aria-label="Ngày ${n}${on?", đã làm":""}${fut?", chưa tới":""}"><span>Ngày</span><b>${n}</b><span class="dot">${on?ic("check"):""}</span></button>`}).join("")}</div>`;
+}
+function dailyCard(l,w,compact){
+  const s=jr(l),wk=J[l][w],me=wk[S.role],td=dayToday(l,w),on=!!(s.days[w]||{})[td],n=daysDone(l,w),st=streak();
+  return `<div class="card tint t-yellow">
+    <div class="row" style="justify-content:space-between"><p class="eyebrow" style="color:var(--yellow)">Hôm nay · Ngày ${td}/7 · Tuần ${w+1}</p>${st>1?`<span class="streak">${ic("spark")}${st} ngày liên tiếp</span>`:""}</div>
+    <h3>${esc(me.t)}</h3>${compact?"":`<p class="small">${esc(me.d)}</p>`}
+    ${on?`<button class="btn quiet block bigcheck" data-a="tick" data-v="${w}-${td}">${ic("check")} Đã giữ nhịp hôm nay</button>`:`<button class="btn block bigcheck" data-a="tick" data-v="${w}-${td}">Mình đã làm hôm nay · +1 nhịp thương</button>`}
+    ${dayStrip(l,w)}
+    <p class="small muted">${n}/7 ngày · cần ${DAYS_NEEDED} ngày để hoàn thành tuần${compact?` · <button class="link" data-a="openWeek" data-v="${w}">Xem chi tiết tuần</button>`:""}</p>
+  </div>`;
+}
+function dishName(l,i){const k=J[l][i].dish;if(k==="fav")return jr(l).fav||DISH.fav.n;return DISH[k].n}
+
+VIEWS.week=()=>{
+  const l=curLevel(),i=V.wk,wk=J[l][i],s=jr(l),me=wk[S.role],other=wk[isHS()?"ph":"hs"],k=LET[i];
+  const step=(key,title,desc,tag,go,a)=>{const on=!!s.steps[i+"-"+key];return `
+    <div class="step" data-on="${on?1:0}"><button class="box" data-a="step" data-v="${key}" role="checkbox" aria-checked="${on}" aria-label="Đánh dấu ${esc(title)}">${on?ic("check","ic"):""}</button>
+    <div><b>${esc(title)}${tag?`<span class="tag">${tag}</span>`:""}${basisTag(a)}</b><p>${esc(desc)}</p>${go?`<div class="go">${goBtn(go)}</div>`:""}${whyBtn(a)}</div></div>`};
+  const tips=wk.tip.filter(t=>!t.role||t.role===S.role);
+  const td=dayToday(l,i),n=daysDone(l,i),ready=n>=DAYS_NEEDED;
+  return `
+   ${top(`Tuần ${i+1}`,true,heartsBtn())}
+   <div class="row"><span class="let L-${k}" style="width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-family:var(--f-display);font-size:1.8rem;font-weight:800">${k}</span><div style="flex:1;min-width:0"><p class="eyebrow">${LETN[k]} · ${LV[l-1].name}</p><h2>${esc(wk.t)}</h2></div></div>
+   <div class="g2 wide-l"><div class="col">
+   <div class="card"><h3>Nhiệm vụ mỗi ngày của ${isHS()?"bạn":"bố mẹ"}</h3>
+     <div class="step" data-on="0" style="grid-template-columns:1fr"><div><b>${esc(me.t)}${basisTag(me)}</b><p>${esc(me.d)}</p>${me.go?`<div class="go">${goBtn(me.go)}</div>`:""}${whyBtn(me)}</div></div>
+     <p class="small muted">Làm mỗi ngày rồi đánh dấu ngày đó bên dưới. Mỗi ngày nhận 1 nhịp thương. Lỡ một ngày cũng không sao, bạn có thể đánh dấu bù những ngày đã qua.</p>
+     ${dayStrip(l,i)}
+     <div class="track" aria-hidden="true"><i style="width:${Math.min(100,n/DAYS_NEEDED*100)}%"></i></div>
+     <p class="small"><b>${n}/7 ngày</b> · ${ready?"Đủ để hoàn thành tuần":`cần thêm ${DAYS_NEEDED-n} ngày để hoàn thành tuần`}</p>
+     <label class="lbl" for="dnote">Một dòng cho ngày ${td} (không bắt buộc)</label>
+     <input type="text" id="dnote" data-bind="dnote" maxlength="140" placeholder="Ví dụ: Hôm nay con kể chuyện bạn cùng phòng, cả nhà cười rất vui." value="${esc(((s.dnote[i]||{})[td])||"")}">
+   </div>
+   ${wk.sh.length?`<div class="card"><h3>${l===4?"Hoạt động có thể làm riêng":"Hoạt động chung trong tuần"}</h3>${wk.sh.map((a,j)=>step("s"+j,a.t,a.d,a.solo||l===4?"làm riêng cũng được":"khi cả hai muốn",a.go,a)).join("")}<p class="small muted">Hoạt động chung làm một lần trong tuần, chỉ đánh dấu khi cả hai tự nguyện tham gia (+1 nhịp thương). Không làm cũng không sao.</p></div>`:""}
+   </div><div class="col">
+   ${tips.length?`<div class="card tint t-yellow"><h3>Gợi ý</h3><ul class="tips">${tips.map(t=>`<li>${esc(t.t)}${t.go?` ${goBtn(t.go,"link")}`:""}</li>`).join("")}</ul></div>`:""}
+   <details class="art"><summary><b>Người thân của bạn sẽ làm gì?</b><span class="chev">›</span></summary><div class="bd"><p><b>${esc(other.t)}</b></p><p class="muted">${esc(other.d)}</p></div></details>
+   ${dnoteList(l,i)}
+   ${wk.dish?`<div class="card tint t-peach"><div class="dishrow">${s.done[i]?dishSVG(wk.dish):`<span style="color:var(--muted)">${lockSVG}</span>`}<div><p class="eyebrow" style="color:var(--peach)">Món mở khóa tuần này</p><h3>${s.done[i]?esc(dishName(l,i)):"Hoàn thành nhiệm vụ để mở khóa"}</h3>${s.done[i]?`<p class="small">${esc(DISH[wk.dish].m)}</p>`:""}</div></div></div>`
+     :(i===3?`<div class="card tint t-violet"><p>Hoàn thành tuần này để khép lại hành trình và nhận huy hiệu “Nhịp nhà bền lâu”.</p></div>`:"")}
+   ${s.done[i]||s.skip[i]?fbCard(s,i):""}
+   ${s.done[i]?`<button class="btn quiet block" data-a="undoWeek">Đánh dấu chưa xong</button>`
+     :s.skip[i]?`<div class="card"><p>Bạn đã bỏ qua tuần này. Không sao cả, bạn có thể quay lại bất cứ lúc nào.</p><button class="btn quiet" data-a="unskipWeek">Làm lại tuần này</button></div>`
+     :`<button class="btn block" data-a="doneWeek" ${ready?"":"disabled"}>Hoàn thành tuần ${i+1}${wk.dish?" & mở khóa món":""}</button>${ready?"":`<p class="small muted" style="text-align:center">Giữ nhịp đủ ${DAYS_NEEDED}/7 ngày để hoàn thành tuần.</p>`}
+       <button class="btn quiet block" data-a="skipWeek">Bỏ qua tuần này</button>`}
+   </div></div>`;
+};
+// Phản hồi sau mỗi tuần: có hữu ích không, có cảm thấy bị ép không
+function fbCard(s,i){const f=s.fb[i]||{};const row=(k,q,opts)=>`<span class="lbl">${q}</span><div class="chips">${opts.map(o=>`<button class="chip" data-a="fb" data-v="${k}|${o}" aria-pressed="${f[k]===o}">${o}</button>`).join("")}</div>`;
+  return `<div class="card tint t-blue"><h3>Tuần này thế nào với bạn?</h3>${row("useful","Hoạt động tuần này có hữu ích không?",["Có","Một chút","Không"])}${row("forced","Bạn có cảm thấy bị ép không?",["Không","Một chút","Có"])}${f.useful&&f.forced?`<p class="small muted">Cảm ơn bạn đã chia sẻ.</p>`:""}</div>`}
+// badge cơ sở hoạt động: điền basis ("lt" có cơ sở lý thuyết / "tn" đang thử nghiệm) và why trong J để hiển thị
+function basisTag(a){if(!a||!a.basis)return "";return `<span class="tag">${a.basis==="lt"?"có cơ sở lý thuyết":"đang thử nghiệm"}</span>`}
+function whyBtn(a){if(!a||!a.why)return "";return `<details class="why"><summary>Vì sao có hoạt động này</summary><p class="small">${esc(a.why)}</p></details>`}
+function dnoteList(l,i){const d=jr(l).dnote[i]||{},ks=Object.keys(d).filter(k=>d[k]).sort((a,b)=>a-b);if(!ks.length)return "";
+  return `<div class="card"><h3>Nhật ký 7 ngày</h3>${ks.map(k=>`<div class="entry"><div class="meta"><span>Ngày ${k}</span></div><p>${esc(d[k])}</p></div>`).join("")}</div>`}
+function goBtn(go,cls="btn quiet"){
+  const lab={garden:"Mở vườn nhà",moments:"Mở Khoảnh khắc",meal:"Xem mâm cơm",library:"Mở thư viện giải pháp",openers:"Xem câu mở lời",support:"Mở Trạm hỗ trợ","diary:secret":isHS()?"Viết vào Điều chưa nói":"Viết vào Góc lắng nghe","diary:thanks":"Mở Nhật ký lòng biết ơn","diary:letter":"Viết thư","diary:pact":"Lập thỏa thuận"}[go]||"Mở";
+  return `<button class="${cls}" data-a="goto" data-v="${go}" style="${cls==="btn quiet"?"min-height:40px;padding:6px 14px;font-size:.9rem":""}">${lab}</button>`;
+}
+
+VIEWS.meal=()=>{
+  if(!curLevel())return `${top("Mâm cơm nhà mình")}<div class="card tint t-peach"><p>Đo nhịp nhà để bắt đầu hành trình. Mỗi tuần hoàn thành sẽ mở khóa một món trên mâm cơm.</p><button class="btn" data-a="startSurvey">Đo nhịp nhà</button></div>`;
+  const l=curLevel(),s=jr(l),done=Object.keys(s.done).length;
+  if(l===4){
+    return `${top("Huy hiệu hành trình")}
+     <div class="card" style="text-align:center"><div class="badge ${done===4?"on":""}">${ic("medal")}</div><h2>Nhịp nhà bền lâu</h2><p class="muted">${done===4?"Bạn đã đi hết hành trình “Tìm điểm tựa an toàn”.":`Đã đi ${done}/4 tuần. Không cần vội, mỗi tuần một bước nhỏ.`}</p></div>
+     <div class="card tint t-pink"><p>Ở Nhịp ngắt, hành trình không đặt mục tiêu ngồi chung mâm cơm. Điều quan trọng là bạn có không gian an toàn và người đồng hành phù hợp.</p></div>
+     ${done===4?`<div class="card"><label class="lbl" for="happy">Nhìn lại hành trình: điều bạn cảm thấy vui nhất là gì?</label><textarea id="happy" data-bind="happy">${esc(s.happy)}</textarea></div>`:""}
+     <div class="weeks">${J[4].map((w,i)=>`<button class="wk" data-a="openWeek" data-v="${i}"><span class="let L-${LET[i]}">${LET[i]}</span><span><small>Tuần ${i+1}</small><b>${esc(w.t)}</b></span><span class="st ${s.done[i]?"st-done":"st-open"}">${s.done[i]?"Đã xong":"Chưa"}</span></button>`).join("")}</div>`;
+  }
+  const keys=J[l].map(w=>w.dish);
+  return `${top("Mâm cơm nhà mình")}
+   <p class="muted">Mỗi tuần hoàn thành sẽ mở khóa một món ăn. Sau 4 tuần, mâm cơm nhà mình hoàn thiện.</p>
+   <div class="tray" role="img" aria-label="Mâm cơm: ${done} trên 4 món đã mở khóa">${keys.map((k,i)=>s.done[i]?`<div class="plate">${dishSVG(k)}<span>${esc(dishName(l,i))}</span></div>`:`<div class="plate lock">${lockSVG}<span>Tuần ${i+1}</span></div>`).join("")}</div>
+   <div class="track"><i style="width:${done/4*100}%"></i></div><p class="small muted" style="text-align:center">${done}/4 món</p>
+   ${keys.includes("fav")?`<div class="card tint t-peach"><label class="lbl" for="fav">Món yêu thích cả nhà cùng chọn (món tuần 4)</label><input type="text" id="fav" data-bind="fav" maxlength="40" placeholder="Ví dụ: Lẩu mắm, bánh xèo…" value="${esc(s.fav)}"></div>`:""}
+   <div class="stack">${keys.map((k,i)=>`<div class="card" style="grid-template-columns:auto 1fr;align-items:center;column-gap:14px"><span class="let L-${LET[i]}" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.3rem">${LET[i]}</span><div><b>${s.done[i]?esc(dishName(l,i)):"Món bí mật"}</b><p class="small muted">${s.done[i]?esc(DISH[k].m):`Hoàn thành tuần ${i+1}: ${esc(J[l][i].t)}`}</p></div></div>`).join("")}</div>
+   ${done===4?`<div class="card tint t-brand"><h3>Mâm cơm gia đình hoàn chỉnh</h3><p>${l===3?"Sau 4 tuần cùng nhau vun đắp, thấu hiểu và gỡ rối, mâm cơm nhà mình đã hoàn thiện: cơm trắng dẻo thơm, mắm chưng đậm đà, rau sống thanh mát và bát canh khoai ấm lòng.":"Khép lại hành trình gắn kết – Mở ra những yêu thương bền chặt mỗi ngày."}</p><p class="small">Hãy cùng ngồi lại một bữa cơm thật, trò chuyện về những điều tích cực mà không phán xét hay trách móc.</p></div>`:""}`;
+};
+
+VIEWS.garden=()=>{
+  const p=S.pet,t=S.tree,nd=totalDays(),st=treeStage(nd),next=TREE_AT[st+1];
+  const owned=p.owned||[],toNext=Math.min(S.hearts,ITEM_COST);
+  return `${top("Vườn nhà",true,heartsBtn())}
+   <div class="card tint t-pink"><p><b>Mỗi ngày giữ nhịp = 1 nhịp thương.</b> Gom đủ ${ITEM_COST} nhịp thương (khoảng một tuần) để mở khóa một món đồ cho ${esc(p.name)}. Cây yêu thương tự lớn theo số ngày bạn giữ nhịp. Bé Chạm không bao giờ buồn hay ốm khi bạn bận.</p></div>
+   <div class="g2">
+   <div class="card">
+     <p class="eyebrow">Bé Chạm</p>
+     <div class="pet" style="position:relative" id="petbox">${petSVG(p)}</div>
+     <button class="btn quiet block" data-a="pat">Vuốt ve ${esc(p.name)}</button>
+     <label class="lbl" for="petname">Tên pet</label><input type="text" id="petname" data-bind="petname" maxlength="20" value="${esc(p.name)}">
+     <span class="lbl">Màu lông</span><div class="chips">${PET_COL.map(c=>`<button class="swatch" style="background:${c.c}" data-a="petcol" data-v="${c.c}" aria-pressed="${p.col===c.c}" aria-label="Màu ${c.n}"></button>`).join("")}</div>
+     <span class="lbl">Hôm nay mình thấy… (biểu cảm của pet)</span><div class="chips">${PET_MOOD.map(m=>`<button class="chip" data-a="petmood" data-v="${m.k}" aria-pressed="${p.mood===m.k}">${m.n}</button>`).join("")}</div>
+   </div>
+   <div class="col">
+   <div class="card">
+     <div class="row" style="justify-content:space-between"><p class="eyebrow">Tủ đồ của ${esc(p.name)}</p><span class="small muted">${owned.length}/${PET_ACC.length} món</span></div>
+     <p class="small">${S.hearts>=ITEM_COST?`Bạn đủ ${ITEM_COST} nhịp thương, chọn một món để mở khóa.`:`Còn ${ITEM_COST-S.hearts} nhịp thương nữa để mở khóa món tiếp theo.`}</p>
+     <div class="track" aria-label="${toNext} trên ${ITEM_COST} nhịp thương"><i style="width:${toNext/ITEM_COST*100}%;background:var(--pink)"></i></div>
+     <div class="shop">${PET_ACC.map(a=>{const has=owned.includes(a.k),wear=p.acc===a.k;
+       const prev=petSVG(Object.assign({},p,{acc:a.k,mood:"vui"}));
+       return has?`<button class="item" data-a="petacc" data-v="${a.k}" aria-pressed="${wear}">${prev}<b>${a.n}</b><span class="small muted">${wear?"Đang đeo · bấm để tháo":"Bấm để đeo"}</span></button>`
+         :`<button class="item locked" data-a="buy" data-v="${a.k}" ${S.hearts>=ITEM_COST?"":"disabled"}>${prev}<b>${a.n}</b><span class="cost">${ic("heart","ic")} ${ITEM_COST} nhịp thương</span></button>`}).join("")}</div>
+   </div>
+   <div class="card">
+     <p class="eyebrow">Cây yêu thương</p>
+     <div class="tree">${treeSVG(nd)}</div>
+     <p style="text-align:center"><b>${TREE_STAGE[st]}</b> · đã giữ nhịp ${nd} ngày${next!=null?` · còn ${next-nd} ngày để cây lớn tiếp`:""}</p>
+     <label class="lbl" for="treename">Tên cây</label><input type="text" id="treename" data-bind="treename" maxlength="24" placeholder="Ví dụ: Cây Hy Vọng" value="${esc(t.name)}">
+     <label class="lbl" for="treemsg">Điều tích cực / lời nhắn cho chính mình</label><input type="text" id="treemsg" data-bind="treemsg" maxlength="80" placeholder="Ví dụ: Mình đang cố gắng từng chút một." value="${esc(t.msg)}">
+   </div></div></div>`;
+};
+
+VIEWS.moments=()=>{
+  const ph=S.mom.photos;
+  return `<div class="top"><div style="flex:1"><p class="eyebrow">Thử thách</p><h2>Chạm khoảnh khắc</h2></div>${heartsBtn()}</div>
+   <p class="muted">Chụp một khoảnh khắc, thêm chú thích ngắn để mở đầu cuộc trò chuyện. Ảnh chỉ lưu trên máy bạn; bạn tự chọn gửi qua Zalo hoặc tin nhắn.</p>
+   <div class="stack">${MOM.map((m,i)=>{const done=S.mom.done[i];const caps=m.cap[S.role];const mine=ph.filter(x=>x.ch===i);return `
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h3>${esc(m.t)}</h3>${done?`<span class="st st-done" style="font-size:.78rem;font-weight:600;padding:3px 9px;border-radius:999px">Đã chạm</span>`:""}</div>
+      <div class="chips">${caps.map(c=>`<button class="chip" data-a="copy" data-v="${esc(c)}" title="Sao chép chú thích">“${esc(c)}”</button>`).join("")}</div>
+      ${mine.map(x=>`<div class="photo">${x.hidden?`<div class="ph">Ảnh đang ẩn</div>`:(x.img?`<img src="${x.img}" alt="${esc(m.t)}">`:`<div class="ph">Không có ảnh</div>`)}<div class="stack" style="gap:6px"><p>${esc(x.cap)}</p><span class="small muted">${esc(x.date)}</span><div class="row" style="gap:12px"><button class="mini" data-a="copy" data-v="${esc(x.cap)}">Sao chép chú thích</button><button class="mini" data-a="phHide" data-v="${x.id}">${x.hidden?"Hiện":"Ẩn"}</button><button class="mini" data-a="phDel" data-v="${x.id}">Xóa</button></div></div></div>`).join("")}
+      <div class="row"><label class="btn quiet filebtn" style="min-height:42px;padding:8px 16px">${ic("camera")} Chọn ảnh<input type="file" accept="image/*" data-file="${i}" aria-label="Chọn ảnh cho thử thách ${esc(m.t)}"></label><button class="btn quiet" style="min-height:42px;padding:8px 16px" data-a="momDone" data-v="${i}">${done?"Bỏ đánh dấu":"Đã chụp & gửi"}</button></div>
+    </div>`}).join("")}</div>`;
+};
+
+VIEWS.diary=()=>{
+  const t=V.dtab;
+  const tabs=[["secret",isHS()?"Điều chưa nói":"Góc lắng nghe"],["thanks","Lòng biết ơn"],["letter","Hòm thư"],["pact","Thỏa thuận nhà mình"]];
+  let body="";
+  if(t==="pact"){
+    const p=S.pact;
+    body=`<div class="card"><h3>Thỏa thuận giao tiếp của nhà mình</h3><p class="small muted">Chọn những nguyên tắc cả nhà cùng đồng ý. Nên thống nhất trực tiếp với người thân trước khi lưu.</p>
+      ${PACT_RULES.concat(p.custom).map(r=>{const on=p.rules.includes(r);return `<div class="step" data-on="${on?1:0}"><button class="box" data-a="pactRule" data-v="${esc(r)}" role="checkbox" aria-checked="${on}" aria-label="${esc(r)}">${on?ic("check"):""}</button><div><b>${esc(r)}</b></div></div>`}).join("")}
+      <div class="row"><input type="text" id="pactnew" placeholder="Thêm nguyên tắc riêng của nhà mình" maxlength="60" style="flex:1;min-width:0"><button class="btn quiet" data-a="pactAdd">Thêm</button></div></div>
+     <div class="card"><h3>Lịch liên lạc</h3><label class="lbl" for="pactwhen">Thời gian</label><input type="text" id="pactwhen" data-bind="pactwhen" placeholder="Ví dụ: 20 phút mỗi tối, sau 21h00" value="${esc(p.when)}">
+      <span class="lbl">Hình thức</span><div class="chips">${PACT_WAYS.map(w=>`<button class="chip" data-a="pactWay" data-v="${w}" aria-pressed="${p.ways.includes(w)}">${w}</button>`).join("")}</div></div>
+     <button class="btn block" data-a="pactSave">Lưu thỏa thuận</button>
+     ${p.saved?`<div class="card tint t-brand"><h3>Đã lưu ngày ${esc(p.saved)}</h3><p style="white-space:pre-wrap">${esc(pactText())}</p><button class="btn quiet" data-a="copy" data-v="${esc(pactText())}">Sao chép để gửi người thân</button></div>`:""}`;
+  } else {
+    const label={secret:isHS()?"Điều con chưa nói":"Góc lắng nghe",thanks:"Nhật ký lòng biết ơn",letter:"Hòm thư yêu thương"}[t];
+    const hint={secret:isHS()?"Góc riêng tư của bạn. Viết ra những điều chưa nói được; không ai đọc được nếu bạn không chia sẻ.":"Ghi lại những gì bạn nhận ra khi trò chuyện với con: câu nói hiệu quả, câu nói làm con im lặng.",thanks:"Cảm ơn hoặc xin lỗi, thật cụ thể. Bạn có thể sao chép để gửi, hoặc giữ cho riêng mình.",letter:"Viết điều bạn trân trọng hoặc mong người thân thấu hiểu. Thư chỉ được gửi khi bạn tự sao chép và gửi đi."}[t];
+    const d=V.draft;
+    const list=S.diary.filter(e=>e.type===t).slice().reverse();
+    body=`<div class="card"><h3>${label}</h3><p class="small muted">${hint}</p>
+      ${t==="thanks"?`<div class="chips">${["Cảm ơn","Xin lỗi"].map(k=>`<button class="chip" data-a="dsub" data-v="${k}" aria-pressed="${(d.sub||"Cảm ơn")===k}">${k}</button>`).join("")}</div>`:""}
+      ${t==="letter"?`<label class="lbl" for="dto">Gửi đến</label><input type="text" id="dto" data-draft="to" placeholder="${isHS()?"Ví dụ: Mẹ":"Ví dụ: Con gái yêu"}" value="${esc(d.to||"")}">`:""}
+      <span class="lbl">Cảm xúc lúc này</span><div class="chips">${MOODS.map(m=>`<button class="chip" data-a="dmood" data-v="${m}" aria-pressed="${d.mood===m}">${m}</button>`).join("")}</div>
+      <label class="lbl" for="dtext">Nội dung</label><textarea id="dtext" data-draft="text" placeholder="${t==="thanks"?"Ví dụ: Cảm ơn mẹ đã gửi thêm áo ấm.":"Viết ở đây…"}">${esc(d.text||"")}</textarea>
+      <button class="btn" data-a="dsave">Lưu</button></div>
+     <div class="stack">${list.length?list.map(e=>`<div class="entry"><div class="meta"><span>${esc(e.date)}${e.sub?" · "+esc(e.sub):""}${e.to?" · Gửi "+esc(e.to):""}</span><span>${esc(e.mood||"")}</span></div><p>${esc(e.text)}</p><div class="row" style="gap:14px">${t!=="secret"?`<button class="mini" data-a="copy" data-v="${esc((e.to?e.to+" ơi,\n":"")+e.text)}">Sao chép để gửi</button>`:""}<button class="mini" data-a="ddel" data-v="${e.id}">Xóa</button></div></div>`).join(""):`<p class="small muted" style="text-align:center">Chưa có ghi chép nào.</p>`}</div>`;
+  }
+  return `<div class="top"><div style="flex:1"><p class="eyebrow">Góc sẻ chia</p><h2>Nhật ký</h2></div>${heartsBtn()}</div>
+   <div class="tabs" role="tablist">${tabs.map(([k,n])=>`<button class="chip" role="tab" data-a="dtab" data-v="${k}" aria-pressed="${t===k}" aria-selected="${t===k}">${n}</button>`).join("")}</div>${body}`;
+};
+function pactText(){const p=S.pact;return "Thỏa thuận giao tiếp của nhà mình\n"+p.rules.map(r=>"• "+r).join("\n")+(p.when?"\nLịch liên lạc: "+p.when:"")+(p.ways.length?"\nHình thức: "+p.ways.join(", "):"")}
+
+VIEWS.profile=()=>{
+  const h=S.hist[S.role]||[];
+  return `<div class="top"><h2 style="flex:1">Cá nhân</h2>${heartsBtn()}</div>
+   <div class="card"><div class="row"><span class="avatar" style="width:64px;font-size:2rem;border-color:var(--brand)" aria-hidden="true">${esc(S.av)}</span><div style="flex:1;min-width:0"><b style="font-family:var(--f-display);font-size:1.3rem">${esc(S.nick||"Chưa đặt biệt danh")}</b><p class="small muted">${isHS()?"Học sinh nội trú":"Phụ huynh / người chăm sóc"}</p></div></div>
+     <label class="lbl" for="nick2">Biệt danh</label><input type="text" id="nick2" data-bind="nick" maxlength="24" value="${esc(S.nick)}">
+     <div class="avatars">${AV.map(a=>`<button class="avatar" data-a="av" data-v="${a}" aria-pressed="${S.av===a}" aria-label="Hình đại diện ${a}">${a}</button>`).join("")}</div>
+     <button class="btn quiet" data-a="switchRole">Đổi vai trò sang ${isHS()?"phụ huynh":"học sinh"}</button></div>
+   <div class="card"><h3>Nhịp nhà qua các lần đo</h3>${h.length?h.slice().reverse().map(x=>`<div class="row" style="justify-content:space-between;border-bottom:1px dashed var(--line);padding-block:6px"><span>${esc(x.date)}</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${LV[x.lv-1].col};margin-right:6px"></i>${LV[x.lv-1].name}</span><b style="font-variant-numeric:tabular-nums">CRI ${x.cri!=null?x.cri.toFixed(2):"–"}</b></div>`).join(""):`<p class="small muted">Chưa đo lần nào.</p>`}
+     <div class="row">${h.length?`<button class="btn quiet" data-a="viewResult">Xem kết quả gần nhất</button>`:""}<button class="btn" data-a="startSurvey" ${canRetake()?"":"disabled"}>${h.length?"Đo nhịp lại":"Đo nhịp nhà"}</button></div>${canRetake()?"":`<p class="small muted">Nút đo lại mở khi bạn hoàn thành 4 tuần của hành trình hiện tại.</p>`}</div>
+   <div class="card"><h3>Dữ liệu phiếu của bạn</h3><p class="small">Mã ẩn danh: <b>${esc(S.anon)}</b> · Phiếu ${QVER}. Gồm câu trả lời gốc, thời điểm làm phiếu, điểm bốn thang, CRI, nhịp gợi ý và nhịp đã chọn, tình trạng từng tuần và phản hồi sau mỗi tuần.</p>
+     <p class="small muted">Chỉ gửi cho nhóm nghiên cứu khi bạn đã đồng ý tham gia nghiên cứu. Dữ liệu không kèm biệt danh.</p>
+     <button class="btn quiet" data-a="copyData" ${(S.hist[S.role]||[]).length?"":"disabled"}>Sao chép dữ liệu ẩn danh</button></div>
+   <div class="card"><h3>Cài đặt</h3>
+     <div class="toggle"><span><b>Chữ lớn</b><br><span class="small muted">Dễ đọc hơn trên điện thoại</span></span><button class="sw" role="switch" aria-checked="${S.set.big}" data-a="tog" data-v="big" aria-label="Chữ lớn"></button></div>
+     <div class="toggle"><span><b>Việc hôm nay trên Trang chủ</b><br><span class="small muted">Hiện thẻ đánh dấu ngày ngay khi mở web</span></span><button class="sw" role="switch" aria-checked="${S.set.remind}" data-a="tog" data-v="remind" aria-label="Việc hôm nay trên Trang chủ"></button></div>
+     <div class="toggle"><span><b>Chế độ xem thử</b><br><span class="small muted">Mở sẵn cả 7 ngày của mỗi tuần, dùng khi giới thiệu web cho hội đồng hoặc phụ huynh</span></span><button class="sw" role="switch" aria-checked="${!!S.set.demo}" data-a="tog" data-v="demo" aria-label="Chế độ xem thử"></button></div></div>
+   <div class="card"><h3>Quyền riêng tư</h3>
+     <p class="small">Mọi dữ liệu chỉ nằm trên trình duyệt của thiết bị này. Nếu dùng chung máy với người thân, hãy xóa dữ liệu sau khi dùng.</p>
+     <p class="small muted"><b>Liên kết tài khoản với người thân (sắp có):</b> khi có, hai bên chỉ thấy tiến trình hoạt động chung, không bao giờ thấy câu trả lời khảo sát hay nhật ký của nhau.</p>
+     <button class="btn danger" data-a="wipe">${V.confirmWipe?"Bấm lần nữa để xóa toàn bộ":"Xóa toàn bộ dữ liệu trên máy này"}</button></div>
+   <div class="tiles">
+     <button class="tile t-brand" data-a="go" data-v="library">${ic("book")}<b>Cẩm nang</b><span>Thư viện giải pháp</span></button>
+     <button class="tile t-pink" data-a="go" data-v="support">${ic("shield")}<b>Trạm hỗ trợ</b><span>Nhà trường và 111</span></button>
+     <button class="tile wide t-violet" data-a="go" data-v="about">${ic("spark")}<span style="display:grid"><b>Về Nhịp Nhà và mô hình CHẠM</b><span>Mục tiêu, cách hoạt động, phối hợp ba bên</span></span><span class="chev">›</span></button>
+   </div>`;
+};
+
+VIEWS.library=()=>{
+  const op=OPEN[S.role||"hs"][V.opener%OPEN[S.role||"hs"].length];
+  const arts=LIB.filter(a=>a.r==="all"||a.r===S.role);
+  return `${top("Cẩm nang & thư viện giải pháp")}
+   <div class="card tint t-blue" id="openers"><p class="eyebrow" style="color:var(--blue)">Câu mở lời gợi ý</p><p class="opener">“${esc(op)}”</p><div class="row"><button class="btn quiet" data-a="nextOpener">Câu khác</button><button class="btn quiet" data-a="copy" data-v="${esc(op)}">Sao chép</button></div></div>
+   <div class="stack">${arts.map((a,i)=>`<details class="art"${i===0?" open":""}><summary><b>${esc(a.t)}</b><span class="chev">›</span></summary><div class="bd">${a.b}</div></details>`).join("")}</div>`;
+};
+
+VIEWS.support=()=>`${top("Trạm hỗ trợ")}
+ <div class="card tint t-pink"><h3>Nếu bạn cảm thấy không an toàn</h3><div class="hot"><p style="flex:1;min-width:200px">${SAFE_MSG}</p><span class="n">111</span></div></div>
+ <h3>Người phụ trách của nhà trường</h3>
+ <div class="stack">${SCHOOL_CONTACTS.map(c=>`<div class="card"><h3>${c.r}</h3><p class="muted">${c.d}</p><p class="small"><b>Cách liên hệ:</b> ${c.how}</p></div>`).join("")}</div>
+ <div class="card tint t-yellow" id="dat-lich"><h3>Đặt lịch gặp tư vấn</h3>
+   <ol class="list"><li>Nhắn hoặc nói với GVCN / quản nhiệm: “${isHS()?"Em muốn gặp thầy cô tư vấn":"Tôi muốn hẹn gặp phòng tư vấn về chuyện trò chuyện với con"}”.</li><li>Hoặc đến trực tiếp phòng PDP / Tâm lý trong giờ làm việc.</li><li>${isHS()?"Bạn có quyền chỉ kể những gì mình muốn kể. Nội dung phiếu của bạn không được chuyển cho bố mẹ.":"Buổi gặp ba bên chỉ diễn ra khi con sẵn sàng."}</li></ol>
+   <p class="small muted">Hiện web chưa đặt lịch trực tiếp; nhà trường sẽ cập nhật cách đặt lịch.</p>
+   <button class="btn quiet" data-a="copy" data-v="${isHS()?"Em chào thầy/cô, em muốn đặt lịch gặp tư vấn. Thầy/cô cho em xin một khung giờ phù hợp ạ.":"Chào thầy/cô, tôi muốn hẹn gặp phòng tư vấn để trao đổi về việc trò chuyện với con. Mong thầy/cô sắp xếp giúp một khung giờ."}">Sao chép tin nhắn hẹn lịch</button></div>
+ <div class="card"><h3>Buổi gặp ba bên</h3><p class="muted">Cha mẹ, con và người hỗ trợ cùng ngồi lại khi con sẵn sàng. Không ai bị ép tham gia.</p></div>
+ <h3>Cơ chế phối hợp ba bên</h3>
+ <div class="tbl"><table><thead><tr><th>Chủ thể</th><th>Vai trò chính</th><th>Hành động cụ thể</th></tr></thead><tbody>
+  <tr><td><b>Học sinh</b></td><td>Chủ thể bộc lộ và nhận thức</td><td>Học cách chia sẻ cảm xúc, chủ động bày tỏ nhu cầu khi sinh hoạt xa nhà.</td></tr>
+  <tr><td><b>Gia đình</b></td><td>Chủ thể lắng nghe và chuyển đổi</td><td>Thay đổi cách tiếp cận từ xa, giảm tra hỏi/áp đặt, học kỹ năng lắng nghe chủ động.</td></tr>
+  <tr><td><b>Nhà trường (FPT)</b></td><td>Trạm trung chuyển và hòa giải</td><td>Quản nhiệm/GVCN quan sát, tâm sự hằng ngày tại KTX. Phòng PDP/Tâm lý sàng lọc định kỳ, tổ chức workshop và tư vấn 1-1.</td></tr>
+ </tbody></table></div>
+ <p class="note">Web là công cụ sàng lọc, không thay thế tư vấn. Không chuyển nội dung phiếu của học sinh cho phụ huynh và không ép hai bên gặp hoặc trò chuyện trực tiếp.</p>`;
+
+VIEWS.about=()=>`${top("Về Nhịp Nhà")}
+ <div class="card tint t-brand"><p class="eyebrow">Mô hình CHẠM</p><p class="core">Không cần thay đổi tất cả trong một ngày. Chỉ cần mỗi ngày hiểu nhau thêm một chút.</p></div>
+ <div class="tiles">${LET.map((k,i)=>`<div class="tile ${["t-brand","t-pink","t-violet","t-yellow"][i]}"><b style="font-size:2rem;color:var(${["--brand","--pink","--violet","--yellow"][i]})">${k}</b><b>${LETN[k]}</b><span>${LETD[k]}</span></div>`).join("")}</div>
+ <div class="card"><h3>Lộ trình kết nối</h3><div class="flow">
+  <div><span>1</span><p><b>Làm phiếu.</b> Học sinh và phụ huynh trả lời riêng ${ORDER.length} câu (bản 3), học sinh có thêm 3 câu an toàn.</p></div>
+  <div><span>2</span><p><b>Bản đồ kết nối.</b> Hồ sơ bốn thang Cởi mở, Né tránh, Chủ động kể, Rào cản và chỉ số CRI.</p></div>
+  <div><span>3</span><p><b>Chọn hành trình.</b> Nhịp được gợi ý theo CRI; người dùng có thể đổi sang nhịp khác.</p></div>
+  <div><span>4</span><p><b>Hành trình 4 tuần.</b> Thói quen mỗi ngày, hoạt động chung, mâm cơm Nhịp Nhà.</p></div>
+  <div><span>5</span><p><b>Đo lại sau 4 tuần.</b> So sánh bốn thang giữa hai lần đo.</p></div></div></div>
+ <div class="card"><h3>Mục tiêu</h3><ul class="list">
+  <li>Giúp học sinh nhận diện cảm xúc, nhu cầu và những khó khăn trong quan hệ với cha mẹ.</li>
+  <li>Giúp phụ huynh hiểu hơn về tâm lý, trải nghiệm và nhu cầu tự chủ của con.</li>
+  <li>Phát hiện sớm dấu hiệu né tránh giao tiếp, thiếu tin tưởng, thường xuyên hiểu lầm hoặc cảm thấy không được lắng nghe.</li>
+  <li>Đưa ra giải pháp phù hợp với từng tình huống.</li>
+  <li>Hỗ trợ nhà trường và người làm công tác tâm lý học đường kết nối học sinh với nguồn hỗ trợ phù hợp.</li></ul></div>
+ <div class="card"><h3>Điều khoản sử dụng</h3><p>Nhịp Nhà là công cụ sàng lọc, không thay thế tư vấn hay chẩn đoán. Kết quả của mỗi người chỉ hiện cho chính người đó. Dữ liệu dùng cho nghiên cứu cần được đồng ý riêng, ẩn danh khi báo cáo.</p></div>
+ <div class="card tint t-yellow"><h3>Hạn chế của phiên bản này</h3><ul class="list">${LIMITS.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+ <p class="small muted">Bộ công cụ nhận diện sớm nguy cơ rạn nứt quan hệ cha mẹ – con tuổi vị thành niên trong môi trường nội trú và đề xuất giải pháp hỗ trợ. Đề tài nghiên cứu khoa học, Trường THPT FPT Cần Thơ. Phiếu ${QVER}.</p>`;
+
+// Dữ liệu ẩn danh để nhóm nghiên cứu tổng hợp (chỉ gửi khi người dùng đồng ý)
+function researchData(){
+  const forms=(S.hist[S.role]||[]).map(r=>({form:r.id,ver:r.ver,who:r.who,attempt:r.attempt,start:r.start?new Date(r.start).toISOString():null,end:r.end?new Date(r.end).toISOString():null,pageMs:r.pageMs,
+    answers:r.ans,safety:r.role==="hs"?r.safe:undefined,support:r.need,context:r.ctx,
+    scores:{raw:r.raw,reversed:r.disp,CRI:+r.cri.toFixed(4),lvByCRI:r.lvCRI,safetyFlag:r.flag,flagCount:r.flagCount,lvFinal:r.lv,lvChosen:r.chosen||r.lv},quality:r.quality}));
+  const journeys=Object.keys(S.j).filter(k=>k.startsWith(S.role+":")).map(k=>{const s=S.j[k],p=k.split(":");return {cycle:+p[1],level:+p[2],
+    weeks:[0,1,2,3].map(w=>({week:w+1,status:s.done[w]?"done":s.skip[w]?"skipped":"open",days:Object.values((s.days||{})[w]||{}).filter(Boolean).length,at:s.done[w]||s.skip[w]||null,feedback:(s.fb||{})[w]||null}))}});
+  return {anon:S.anon,role:S.role,consentAt:S.consent?new Date(S.consent).toISOString():null,exportedAt:new Date().toISOString(),forms,journeys};
+}
+
+/* =========================================================
+   ĐIỀU HƯỚNG & HIỂN THỊ
+   ========================================================= */
+const NAV=[["home","Trang chủ","home"],["moments","Khoảnh khắc","camera"],["journey","Hành trình","map"],["diary","Nhật ký","book"],["profile","Cá nhân","user"]];
+const PARENT={week:"journey",meal:"journey",garden:"home",library:"home",support:"home",about:"profile",result:"home"};
+function render(){
+  if(!S.onb&&!["welcome","role","setup","about"].includes(V.view))V.view="welcome";
+  applySet();
+  $("#app").innerHTML=VIEWS[V.view]()+`<footer class="foot">${ic("shield")}<span>Cần hỗ trợ ngay? Gọi <b>111</b> – Tổng đài quốc gia bảo vệ trẻ em, miễn phí, 24/7.</span></footer>`;
+  $("#app").classList.toggle("narrow",["survey","welcome","role","setup","library","support","about","diary","moments","profile"].includes(V.view));
+  const showNav=S.onb&&!["survey","welcome","role","setup"].includes(V.view);
+  $("#bn").hidden=!showNav;document.body.classList.toggle("has-nav",showNav);
+  if(showNav){const act=PARENT[V.view]||V.view;
+    $("#bn-brand").innerHTML=`<span><svg viewBox="0 0 46 46" fill="none" stroke="var(--brand)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26h8l4-8 7-12 7 12 4 8h8"/><path d="M14 22v16h18V22"/></svg></span>Nhịp Nhà`;
+    $("#bn-in").innerHTML=NAV.map(([k,n,i])=>`<button data-a="nav" data-v="${k}" aria-current="${act===k?"page":"false"}"><span class="ib">${ic(i)}</span>${n}</button>`).join("")}
+  try{if(S.onb&&NAV.some(n=>n[0]===V.view))history.replaceState(null,"","#"+V.view)}catch(e){}
+}
+function go(v,push=true){if(push&&V.view!==v)V.prev.push(V.view);V.view=v;V.confirmWipe=false;render();window.scrollTo({top:0})}
+function back(){const p=V.prev.pop();V.view=p||(S.onb?"home":"welcome");render();window.scrollTo({top:0})}
+
+const ACT={
+ nav:v=>{V.prev=[];go(v,false)},
+ go:v=>go(v),
+ back:()=>back(),
+ goto:v=>{if(v.startsWith("diary:")){V.dtab=v.split(":")[1];V.draft={};go("diary")}else if(v==="openers"){go("library")}else go(v)},
+ role:v=>{S.role=v;save();go("setup")},
+ av:v=>{S.av=v;save();render()},
+ finishSetup:()=>{if(!S.consent){toast("Hãy đọc và đánh dấu đồng ý tham gia trước nhé.");return}S.onb=true;save();V.prev=[];go("home",false)},
+ consent:()=>{S.consent=S.consent?null:Date.now();save();render()},
+ startSurvey:()=>{if(!canRetake()){toast("Hãy đi hết 4 tuần (hoàn thành hoặc bỏ qua) rồi đo nhịp lại nhé.");return}V.sv={k:0,ans:{},safe:{},need:{},start:Date.now(),pageStart:Date.now(),pageMs:[]};V.pick=null;go("survey")},
+ svNext:()=>{const sv=V.sv,st=svSteps()[sv.k];if(st[0]==="p"){sv.pageMs[+st[1]]=(sv.pageMs[+st[1]]||0)+(Date.now()-sv.pageStart)}sv.k=Math.min(sv.k+1,svSteps().length-1);sv.pageStart=Date.now();render();window.scrollTo({top:0})},
+ svBack:()=>{const sv=V.sv;if(sv.k<=0){back();return}sv.k--;sv.pageStart=Date.now();render();window.scrollTo({top:0})},
+ svGoScale:v=>{const p=PAGE_SIZES.findIndex((_,i)=>pageItems(i).some(c=>c.slice(0,2)===v&&typeof V.sv.ans[c]!=="number"));V.sv.k=svSteps().indexOf("p"+Math.max(0,p));V.sv.pageStart=Date.now();render();window.scrollTo({top:0})},
+ pick:v=>{const [g,c,val]=v.split("|"),o=V.sv[g];o[c]=o[c]===+val?undefined:+val;if(o[c]===undefined)delete o[c];const y=window.scrollY;render();window.scrollTo({top:y})},
+ ctx:v=>{const [k,o]=v.split("|");S.ctx[k]=S.ctx[k]===o?undefined:o;if(!S.ctx[k])delete S.ctx[k];save();render()},
+ svFinish:()=>{const r=scoreForm(S.role,V.sv);if(r.miss){render();return}S.hist[S.role].push(r);while(S.hist[S.role].length>12)S.hist[S.role].shift();save();V.res=r;V.pick=r.lv;V.prev=["home"];V.view="result";render();window.scrollTo({top:0})},
+ viewResult:()=>{V.res=last();V.pick=null;go("result")},
+ pickLv:v=>{V.pick=+v;render()},
+ whoPick:v=>{const w=S.who[S.role]=S.who[S.role]||{};w.pick=w.pick===v?"":v;save();render()},
+ startJourney:v=>{const r=last();if(r){S.choice[cycleBase()]=+v||r.lv;r.chosen=S.choice[cycleBase()]}save();V.prev=[];go("journey",false)},
+ changeLv:v=>{const r=last();S.choice[cycleBase()]=+v;if(r)r.chosen=+v;save();render();toast("Đã đổi sang "+LV[+v-1].name)},
+ skipWeek:()=>{const s=jr(curLevel());s.skip[V.wk]=Date.now();save();render();toast("Đã bỏ qua tuần "+(V.wk+1))},
+ unskipWeek:()=>{const s=jr(curLevel());delete s.skip[V.wk];save();render()},
+ fb:v=>{const [k,val]=v.split("|"),s=jr(curLevel());s.fb[V.wk]=s.fb[V.wk]||{};s.fb[V.wk][k]=val;s.fb[V.wk].at=Date.now();save();render()},
+ shareRes:()=>{const r=last();if(!r)return;const L=LV[r.lv-1];copy(`Nhịp Nhà – ${L.head[r.role]} (${L.name} · ${L.title}). ${isHS()?"Mình":"Bố/mẹ"} đang theo hành trình 4 tuần để nhà mình hiểu nhau thêm một chút.`)},
+ copyData:()=>{copy(JSON.stringify(researchData(),null,1))},
+ openWeek:v=>{V.wk=+v;ensureStart(curLevel(),V.wk);save();go("week")},
+ step:v=>{const l=curLevel(),s=jr(l),k=V.wk+"-"+v;s.steps[k]=!s.steps[k];if(s.steps[k])reward(l,"st"+k,1);save();render()},
+ doneWeek:()=>{const l=curLevel(),s=jr(l);if(daysDone(l,V.wk)<DAYS_NEEDED)return;s.done[V.wk]=Date.now();const nx=V.wk+1;if(nx<4)ensureStart(l,nx);save();render();
+   const w=J[l][V.wk];setTimeout(()=>toast(w.dish?`Đã mở khóa món: ${dishName(l,V.wk)}`:(Object.keys(s.done).length===4?"Bạn đã nhận huy hiệu “Nhịp nhà bền lâu”":"Đã hoàn thành tuần "+(V.wk+1))),600)},
+ undoWeek:()=>{const s=jr(curLevel());delete s.done[V.wk];save();render()},
+ pat:()=>{const box=$("#petbox");if(box){const s=document.createElement("span");s.className="pop";s.textContent="♥";box.appendChild(s);setTimeout(()=>s.remove(),1000)}},
+ buy:v=>{if(S.hearts<ITEM_COST){toast(`Cần ${ITEM_COST} nhịp thương để mở khóa.`);return}const a=PET_ACC.find(x=>x.k===v);if(!a||S.pet.owned.includes(v))return;
+   S.hearts-=ITEM_COST;S.pet.owned.push(v);S.pet.acc=v;save();render();toast(`Đã mở khóa: ${a.n}`)},
+ tick:v=>{const [w,d]=v.split("-").map(Number),l=curLevel(),bt=treeStage(totalDays());tickDay(l,w,d);render();const at=treeStage(totalDays());if(at>bt)setTimeout(()=>toast(`Cây yêu thương đã lớn thành: ${TREE_STAGE[at]}`),900)},
+ petcol:v=>{S.pet.col=v;save();render()},
+ petmood:v=>{S.pet.mood=v;save();render()},
+ petacc:v=>{S.pet.acc=S.pet.acc===v?"":v;save();render()},
+ nextOpener:()=>{V.opener++;render()},
+ copy:v=>copy(v),
+ diary:v=>{V.dtab=v;V.draft={};go("diary")},
+ dtab:v=>{V.dtab=v;V.draft={};render()},
+ dmood:v=>{V.draft.mood=V.draft.mood===v?"":v;render()},
+ dsub:v=>{V.draft.sub=v;render()},
+ dsave:()=>{const d=V.draft;if(!d.text||!d.text.trim()){toast("Hãy viết vài dòng trước khi lưu.");return}
+   S.diary.push({id:uid(),type:V.dtab,text:d.text.trim(),mood:d.mood||"",sub:V.dtab==="thanks"?(d.sub||"Cảm ơn"):"",to:V.dtab==="letter"?(d.to||""):"",date:today()});V.draft={};save();render();toast("Đã lưu")},
+ ddel:v=>{S.diary=S.diary.filter(e=>e.id!==v);save();render()},
+ pactRule:v=>{const r=S.pact.rules;const i=r.indexOf(v);i>=0?r.splice(i,1):r.push(v);save();render()},
+ pactAdd:()=>{const el=$("#pactnew"),t=el&&el.value.trim();if(!t)return;S.pact.custom.push(t);S.pact.rules.push(t);save();render()},
+ pactWay:v=>{const w=S.pact.ways;const i=w.indexOf(v);i>=0?w.splice(i,1):w.push(v);save();render()},
+ pactSave:()=>{if(!S.pact.rules.length){toast("Chọn ít nhất một nguyên tắc.");return}S.pact.saved=today();save();render();toast("Đã lưu thỏa thuận của nhà mình")},
+ momDone:v=>{S.mom.done[v]=!S.mom.done[v];if(S.mom.done[v])reward(0,"mom"+v,1);save();render()},
+ phHide:v=>{const p=S.mom.photos.find(x=>x.id===v);if(p)p.hidden=!p.hidden;save();render()},
+ phDel:v=>{S.mom.photos=S.mom.photos.filter(x=>x.id!==v);save();render()},
+ tog:v=>{S.set[v]=!S.set[v];save();render()},
+ switchRole:()=>{S.role=isHS()?"ph":"hs";save();render();toast("Đã đổi vai trò")},
+ wipe:()=>{if(!V.confirmWipe){V.confirmWipe=true;render();return}try{localStorage.removeItem(KEY)}catch(e){}S=blank();V={view:"welcome",prev:[],sv:null,wk:0,jl:null,dtab:"secret",res:null,opener:0,confirmWipe:false,draft:{}};render();toast("Đã xóa toàn bộ dữ liệu")}
+};
+// thưởng ngoài hành trình (khoảnh khắc) dùng sổ riêng
+const _reward=reward;reward=function(l,key,n){if(l===0){S.mom.rew=S.mom.rew||{};if(S.mom.rew[key])return;S.mom.rew[key]=1;S.hearts+=n;toast(`+${n} nhịp thương`);return}_reward(l,key,n)};
+
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||b.disabled)return;const f=ACT[b.dataset.a];if(f){e.preventDefault();f(b.dataset.v)}});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("[data-a][role=button]:not(button)")){e.preventDefault();const f=ACT[e.target.dataset.a];if(f)f(e.target.dataset.v)}});
+document.addEventListener("input",e=>{
+  const el=e.target,b=el.dataset.bind,dr=el.dataset.draft;
+  if(dr){V.draft[dr]=el.value;return}
+  if(!b)return;const v=el.value,l=curLevel();
+  if(b==="nick")S.nick=v;else if(b==="petname")S.pet.name=v||"Bé Chạm";else if(b==="treename")S.tree.name=v;else if(b==="treemsg")S.tree.msg=v;
+  else if(b==="wnote")jr(l).note[V.wk]=v;
+  else if(b==="whoCustom"||b==="whoChild"){const w=S.who[S.role]=S.who[S.role]||{};if(b==="whoCustom")w.custom=v;else w.child=v;
+    const pv=$("#whoPreview");if(pv){const sample=isHS()?ITEMS.find(x=>x.c==="OP2").hs:ITEMS.find(x=>x.c==="OP1").ph;pv.textContent="“"+qText(sample)+"”"}}
+  else if(b==="dnote"){const s=jr(l);s.dnote[V.wk]=s.dnote[V.wk]||{};s.dnote[V.wk][dayToday(l,V.wk)]=v}else if(b==="fav")jr(l).fav=v;else if(b==="happy")jr(l).happy=v;else if(b==="pactwhen")S.pact.when=v;
+  save();
+});
+document.addEventListener("change",e=>{
+  const el=e.target;if(!el.dataset.file||!el.files||!el.files[0])return;const ch=+el.dataset.file,file=el.files[0];
+  const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{
+    const s=Math.min(1,360/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);let url="";try{url=c.toDataURL("image/jpeg",.7)}catch(err){}
+    const cap=MOM[ch].cap[S.role][0];S.mom.photos.push({id:uid(),ch,img:url,cap,date:today(),hidden:false});
+    if(S.mom.photos.length>12)S.mom.photos.shift();S.mom.done[ch]=true;reward(0,"mom"+ch,1);save();render()};img.src=rd.result};rd.readAsDataURL(file);
+});
+
+const h=(location.hash||"").slice(1);
+if(S.onb&&NAV.some(n=>n[0]===h))V.view=h;
+render();
+})();
+</script>
+</body>
+</html>
