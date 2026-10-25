@@ -15,11 +15,17 @@ Web của đề tài nghiên cứu khoa học **"Bộ công cụ nhận diện s
 | `index.html` | Toàn bộ web (giao diện, nội dung, xử lý) |
 | `favicon.svg` | Biểu tượng trên tab trình duyệt |
 | `vercel.json` | Cấu hình bảo mật khi chạy trên Vercel |
+| `firestore.rules` | Quy tắc bảo mật Firestore cho đăng nhập Google (dán vào Firebase → Firestore → Rules) |
 
 Nội dung (câu hỏi, nhịp, hoạt động) nằm trong `index.html`, khối **DỮ LIỆU NỘI DUNG** ở đầu thẻ `<script>`.
 
 ## Dữ liệu
-Mọi câu trả lời chỉ lưu trên trình duyệt của người dùng (localStorage), không gửi về máy chủ.
+Mặc định mọi dữ liệu chỉ lưu trên trình duyệt của người dùng (localStorage).
+
+## Đăng nhập Google (giai đoạn 1, tùy chọn)
+- Bật bằng cách dán `firebaseConfig` vào hằng `FIREBASE_CONFIG` trong `index.html`; để `null` thì chức năng đăng nhập ẩn.
+- Khi đăng nhập, trạng thái được lưu vào Firestore tại `users/{uid}` (một chuỗi JSON). Ảnh khoảnh khắc không bao giờ được gửi lên; nhật ký chỉ gửi khi người dùng bật.
+- `ALLOWED_EMAIL_DOMAIN` giới hạn email được đăng nhập (ví dụ `fpt.edu.vn`).
 
 ## Cập nhật
 Sửa `index.html` trên GitHub → Commit → Vercel tự triển khai lại sau khoảng 1 phút.

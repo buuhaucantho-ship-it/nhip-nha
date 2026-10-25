@@ -264,6 +264,7 @@ nav.bn .ib{transition:transform .2s ease}
 
 
 nav.bn[hidden]{display:none!important}
+.gbtn{gap:10px}
 /* survey v3 */
 .sv-head{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:5}
 .legend5{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted)}
@@ -605,7 +606,8 @@ function loadState(){
 }
 loadState();
 let warned=false;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){if(!warned){warned=true;toast("Trình duyệt này không cho lưu dữ liệu. Tiến trình sẽ mất khi đóng trang.")}}}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){if(!warned){warned=true;toast("Trình duyệt này không cho lưu dữ liệu. Tiến trình sẽ mất khi đóng trang.")}}}
+function save(){S.localAt=Date.now();saveLocal();if(typeof cloudSchedule==="function")cloudSchedule()}
 let V={view:S.onb?"home":"welcome",prev:[],sv:null,wk:0,dtab:"secret",res:null,pick:null,opener:0,confirmWipe:false,draft:{}};
 
 /* =========================================================
@@ -778,6 +780,7 @@ VIEWS.welcome=()=>`
  </div>
  <div class="card tint t-brand" style="text-align:center"><p class="core">Không cần thay đổi tất cả trong một ngày.<br>Chỉ cần mỗi ngày hiểu nhau thêm một chút.</p></div>
  <button class="btn block" data-a="go" data-v="role">Bắt đầu</button>
+ ${CLOUD.on?`<button class="btn quiet block gbtn" data-a="login" ${CLOUD.ready?"":"disabled"}>${gIcon} Đã dùng trên máy khác? Đăng nhập bằng Google</button>`:""}
  <p style="text-align:center"><button class="link" data-a="go" data-v="about">Tìm hiểu mô hình CHẠM</button></p>
  <p class="small muted" style="text-align:center">Đề tài nghiên cứu khoa học · Trường THPT FPT Cần Thơ</p>`;
 
@@ -792,7 +795,7 @@ VIEWS.setup=()=>`
  <div class="card">
    <h3>Nhịp Nhà dùng để làm gì?</h3>
    <p>Bộ câu hỏi giúp ${isHS()?"bạn":"bố mẹ"} nhìn lại cách trò chuyện trong gia đình và gợi ý một hành trình 4 tuần phù hợp. Câu hỏi chỉ giúp nhận diện nhu cầu hỗ trợ, không đánh giá ai đúng ai sai và không dùng để chẩn đoán.</p>
-   <div class="priv">${ic("lock")}<p><b>Dữ liệu được lưu:</b> câu trả lời, thời điểm làm phiếu, kết quả và tiến trình hành trình. Tất cả chỉ nằm trên thiết bị này, không gửi đi đâu.</p></div>
+   <div class="priv">${ic("lock")}<p><b>Dữ liệu được lưu:</b> câu trả lời, thời điểm làm phiếu, kết quả và tiến trình hành trình. Tất cả nằm trên thiết bị này${CLOUD.on?"; nếu bạn đăng nhập Google, dữ liệu được lưu thêm vào tài khoản của bạn để dùng trên nhiều máy (không gồm ảnh)":", không gửi đi đâu"}.</p></div>
    <div class="priv">${ic("eye")}<p><b>Kết quả là của riêng bạn.</b> Người thân không xem được nếu bạn không tự chọn chia sẻ.</p></div>
    <div class="priv">${ic("check")}<p><b>Bạn có quyền bỏ qua</b> bất kỳ câu hỏi, nhiệm vụ hay tuần nào, và xóa dữ liệu bất cứ lúc nào.</p></div>
    <p class="small muted">Web là công cụ sàng lọc, không thay thế tư vấn.</p>
@@ -1185,6 +1188,7 @@ VIEWS.profile=()=>{
      <label class="lbl" for="nick2">Biệt danh</label><input type="text" id="nick2" data-bind="nick" maxlength="24" value="${esc(S.nick)}">
      <div class="avatars">${AV.map(a=>`<button class="avatar" data-a="av" data-v="${a}" aria-pressed="${S.av===a}" aria-label="Hình đại diện ${a}">${a}</button>`).join("")}</div>
      <button class="btn quiet" data-a="switchRole">Đổi vai trò sang ${isHS()?"phụ huynh":"học sinh"}</button></div>
+   ${accountCard()}
    <div class="card"><h3>Nhịp nhà qua các lần đo</h3>${h.length?h.slice().reverse().map(x=>`<div class="row" style="justify-content:space-between;border-bottom:1px dashed var(--line);padding-block:6px"><span>${esc(x.date)}</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${LV[x.lv-1].col};margin-right:6px"></i>${LV[x.lv-1].name}</span><b style="font-variant-numeric:tabular-nums">CRI ${x.cri!=null?x.cri.toFixed(2):"–"}</b></div>`).join(""):`<p class="small muted">Chưa đo lần nào.</p>`}
      <div class="row">${h.length?`<button class="btn quiet" data-a="viewResult">Xem kết quả gần nhất</button>`:""}<button class="btn" data-a="startSurvey" ${canRetake()?"":"disabled"}>${h.length?"Đo nhịp lại":"Đo nhịp nhà"}</button></div>${canRetake()?"":`<p class="small muted">Nút đo lại mở khi bạn hoàn thành 4 tuần của hành trình hiện tại.</p>`}</div>
    <div class="card"><h3>Dữ liệu phiếu của bạn</h3><p class="small">Mã ẩn danh: <b>${esc(S.anon)}</b> · Phiếu ${QVER}. Gồm câu trả lời gốc, thời điểm làm phiếu, điểm bốn thang, CRI, nhịp gợi ý và nhịp đã chọn, tình trạng từng tuần và phản hồi sau mỗi tuần.</p>
@@ -1257,6 +1261,85 @@ function researchData(){
   const journeys=Object.keys(S.j).filter(k=>k.startsWith(S.role+":")).map(k=>{const s=S.j[k],p=k.split(":");return {cycle:+p[1],level:+p[2],
     weeks:[0,1,2,3].map(w=>({week:w+1,status:s.done[w]?"done":s.skip[w]?"skipped":"open",days:Object.values((s.days||{})[w]||{}).filter(Boolean).length,at:s.done[w]||s.skip[w]||null,feedback:(s.fb||{})[w]||null}))}});
   return {anon:S.anon,role:S.role,consentAt:S.consent?new Date(S.consent).toISOString():null,exportedAt:new Date().toISOString(),forms,journeys};
+}
+
+/* =========================================================
+   ĐĂNG NHẬP GOOGLE & ĐỒNG BỘ (Firebase) — giai đoạn 1
+   ========================================================= */
+// Dán cấu hình "firebaseConfig" của Firebase (Project settings → Your apps → Web) vào đây.
+// Đây là mã định danh công khai của dự án, không phải mật khẩu. Để null thì web ẩn chức năng đăng nhập.
+const FIREBASE_CONFIG=null;
+// Giới hạn email được đăng nhập, ví dụ "fpt.edu.vn". Để trống thì mọi tài khoản Google đều đăng nhập được.
+const ALLOWED_EMAIL_DOMAIN="";
+const FB_VER="10.12.2";
+const CLOUD={on:!!FIREBASE_CONFIG,ready:false,user:null,busy:false,last:0,err:"",conflict:null,timer:null,clearOnLogout:true,confirmDel:false};
+let fbAuth=null,fbDb=null;
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>no(new Error("load "+src));document.head.appendChild(s)})}
+async function cloudInit(){
+  if(!CLOUD.on)return;
+  try{
+    for(const m of ["app","auth","firestore"])await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-${m}-compat.js`);
+    firebase.initializeApp(FIREBASE_CONFIG);fbAuth=firebase.auth();fbDb=firebase.firestore();
+    CLOUD.ready=true;
+    fbAuth.getRedirectResult().catch(e=>authError(e));
+    fbAuth.onAuthStateChanged(u=>{onUser(u).catch(e=>{CLOUD.err="Không đọc được dữ liệu trên tài khoản.";CLOUD.busy=false;render()})});
+  }catch(e){CLOUD.err="Không tải được dịch vụ đăng nhập. Kiểm tra kết nối mạng.";render()}
+}
+function authError(e){
+  const m={"auth/unauthorized-domain":"Tên miền này chưa được cho phép trong Firebase (Authentication → Settings → Authorized domains).","auth/popup-closed-by-user":"Bạn đã đóng cửa sổ đăng nhập.","auth/cancelled-popup-request":"","auth/network-request-failed":"Lỗi mạng, hãy thử lại."}[e&&e.code];
+  if(m===""||!e)return;toast(m||"Đăng nhập chưa thành công. Hãy thử lại.");
+}
+const docRef=uid=>fbDb.collection("users").doc(uid);
+function hasLocalData(){return S.onb&&((S.hist.hs||[]).length+(S.hist.ph||[]).length>0||Object.keys(S.j||{}).length>0||(S.diary||[]).length>0)}
+// Dữ liệu gửi lên: không gửi ảnh; nhật ký chỉ gửi khi người dùng bật
+function cloudPayload(){const c=JSON.parse(JSON.stringify(S));c.mom.photos=[];if(!S.syncDiary){c.diary=[]}delete c.cloudUid;return JSON.stringify(c)}
+async function onUser(u){
+  if(!u){CLOUD.user=null;CLOUD.conflict=null;render();return}
+  const email=(u.email||"").toLowerCase();
+  if(ALLOWED_EMAIL_DOMAIN&&!email.endsWith("@"+ALLOWED_EMAIL_DOMAIN.toLowerCase())){await fbAuth.signOut();toast("Chỉ email @"+ALLOWED_EMAIL_DOMAIN+" được đăng nhập.");return}
+  CLOUD.user={uid:u.uid,email:u.email,name:u.displayName,photo:u.photoURL};CLOUD.busy=true;render();
+  const snap=await docRef(u.uid).get();CLOUD.busy=false;
+  const remote=snap.exists?snap.data():null;
+  if(!remote){S.cloudUid=u.uid;saveLocal();await cloudPush();render();return}
+  if(S.cloudUid===u.uid||!hasLocalData()){
+    if(S.cloudUid===u.uid&&(S.localAt||0)>(remote.clientAt||0)){await cloudPush()}else{adopt(remote)}
+    render();return}
+  CLOUD.conflict=remote;V.view="profile";render();
+}
+function adopt(remote){
+  let c={};try{c=JSON.parse(remote.state)}catch(e){}
+  const keepPhotos=S.mom.photos||[],keepDiary=S.diary||[];
+  S=Object.assign(blank(),c);S.pet=Object.assign(blank().pet,S.pet||{});S.set=Object.assign(blank().set,S.set||{});S.who=Object.assign({hs:{},ph:{}},S.who||{});
+  S.mom=Object.assign(blank().mom,S.mom||{});S.mom.photos=keepPhotos;if(!S.syncDiary||!(S.diary||[]).length)S.diary=keepDiary;
+  S.cloudUid=CLOUD.user.uid;S.localAt=remote.clientAt||Date.now();CLOUD.last=remote.clientAt||Date.now();CLOUD.conflict=null;
+  saveLocal();if(S.onb&&["welcome","role","setup"].includes(V.view))V.view="home";toast("Đã tải dữ liệu từ tài khoản của bạn");
+}
+async function cloudPush(){
+  if(!CLOUD.user||!fbDb)return;
+  try{const at=Date.now();await docRef(CLOUD.user.uid).set({state:cloudPayload(),ver:3,clientAt:at,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});CLOUD.last=at;CLOUD.err="";if(V.view==="profile")render()}
+  catch(e){CLOUD.err="Chưa đồng bộ được, sẽ thử lại khi bạn thao tác tiếp.";if(V.view==="profile")render()}
+}
+function cloudSchedule(){if(!CLOUD.user||S.cloudUid!==CLOUD.user.uid||CLOUD.conflict)return;clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(cloudPush,1500)}
+const gIcon=`<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>`;
+const hhmm=t=>{const d=new Date(t);return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")+" "+d.getDate()+"/"+(d.getMonth()+1)};
+function accountCard(){
+  if(!CLOUD.on)return "";
+  const u=CLOUD.user;
+  if(CLOUD.conflict){const c=CLOUD.conflict;return `<div class="card tint t-yellow"><h3>Tài khoản đã có dữ liệu</h3>
+    <p>Tài khoản ${esc(u&&u.email)} đã có dữ liệu Nhịp Nhà (lưu lúc ${hhmm(c.clientAt||Date.now())}), và máy này cũng đang có dữ liệu. Bạn muốn dùng bản nào?</p>
+    <div class="row"><button class="btn" data-a="useCloud">Dùng dữ liệu trên tài khoản</button><button class="btn quiet" data-a="useLocal">Dùng dữ liệu trên máy này</button></div>
+    <p class="small muted">Bản không được chọn sẽ bị thay thế. Ảnh khoảnh khắc trên máy này luôn được giữ lại.</p></div>`}
+  if(!u)return `<div class="card"><h3>Lưu tiến trình bằng tài khoản Google</h3>
+    <p class="small">Đăng nhập để giữ hành trình, Bé Chạm và kết quả đo khi đổi điện thoại hoặc dùng máy khác. Không đăng nhập vẫn dùng bình thường.</p>
+    <button class="btn quiet gbtn" data-a="login" ${CLOUD.ready?"":"disabled"}>${gIcon} ${CLOUD.ready?"Đăng nhập bằng Google":"Đang tải…"}</button>
+    ${CLOUD.err?`<p class="small" style="color:var(--l4)">${esc(CLOUD.err)}</p>`:""}
+    <p class="small muted">Ảnh khoảnh khắc không bao giờ được gửi lên. Nhật ký chỉ được lưu lên tài khoản khi bạn bật.${ALLOWED_EMAIL_DOMAIN?` Chỉ email @${esc(ALLOWED_EMAIL_DOMAIN)} được đăng nhập.`:""}</p></div>`;
+  return `<div class="card"><h3>Tài khoản</h3>
+    <div class="row">${u.photo?`<img src="${esc(u.photo)}" alt="" width="40" height="40" style="border-radius:50%" referrerpolicy="no-referrer">`:""}<div style="flex:1;min-width:0"><b style="overflow-wrap:anywhere">${esc(u.email)}</b><p class="small muted">${CLOUD.busy?"Đang đồng bộ…":CLOUD.last?"Đã lưu lên tài khoản lúc "+hhmm(CLOUD.last):"Chưa đồng bộ"}</p></div></div>
+    ${CLOUD.err?`<p class="small" style="color:var(--l4)">${esc(CLOUD.err)}</p>`:""}
+    <div class="toggle"><span><b>Lưu cả nhật ký lên tài khoản</b><br><span class="small muted">Mặc định tắt. Chỉ bạn đọc được nhật ký của mình.</span></span><button class="sw" role="switch" aria-checked="${!!S.syncDiary}" data-a="cloudDiary" aria-label="Lưu cả nhật ký lên tài khoản"></button></div>
+    <div class="toggle"><span><b>Xóa dữ liệu trên máy này khi đăng xuất</b><br><span class="small muted">Nên bật nếu dùng máy chung.</span></span><button class="sw" role="switch" aria-checked="${CLOUD.clearOnLogout}" data-a="cloudClear" aria-label="Xóa dữ liệu trên máy khi đăng xuất"></button></div>
+    <div class="row"><button class="btn quiet" data-a="syncNow">Đồng bộ ngay</button><button class="btn quiet" data-a="logout">Đăng xuất</button><button class="btn danger" data-a="cloudDelete">${CLOUD.confirmDel?"Bấm lần nữa để xóa":"Xóa dữ liệu trên tài khoản"}</button></div></div>`;
 }
 
 /* =========================================================
@@ -1335,6 +1418,17 @@ const ACT={
  phDel:v=>{S.mom.photos=S.mom.photos.filter(x=>x.id!==v);save();render()},
  tog:v=>{S.set[v]=!S.set[v];save();render()},
  switchRole:()=>{S.role=isHS()?"ph":"hs";save();render();toast("Đã đổi vai trò")},
+ login:()=>{if(!CLOUD.ready)return;const p=new firebase.auth.GoogleAuthProvider();const q={prompt:"select_account"};if(ALLOWED_EMAIL_DOMAIN)q.hd=ALLOWED_EMAIL_DOMAIN;p.setCustomParameters(q);
+   fbAuth.signInWithPopup(p).catch(e=>{if(["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code))fbAuth.signInWithRedirect(p);else authError(e)})},
+ logout:async()=>{if(!CLOUD.user)return;clearTimeout(CLOUD.timer);await cloudPush();await fbAuth.signOut();
+   if(CLOUD.clearOnLogout){try{localStorage.removeItem(KEY)}catch(e){}S=blank();V={view:"welcome",prev:[],sv:null,wk:0,dtab:"secret",res:null,pick:null,opener:0,confirmWipe:false,draft:{}}}
+   else{delete S.cloudUid;saveLocal()}render();toast("Đã đăng xuất")},
+ syncNow:()=>{CLOUD.busy=true;render();cloudPush().then(()=>{CLOUD.busy=false;render();toast("Đã đồng bộ")})},
+ cloudDiary:()=>{S.syncDiary=!S.syncDiary;save();render()},
+ cloudClear:()=>{CLOUD.clearOnLogout=!CLOUD.clearOnLogout;render()},
+ useCloud:()=>{const r=CLOUD.conflict;if(r){adopt(r);render()}},
+ useLocal:()=>{CLOUD.conflict=null;S.cloudUid=CLOUD.user.uid;saveLocal();cloudPush().then(()=>toast("Đã lưu dữ liệu trên máy này lên tài khoản"));render()},
+ cloudDelete:async()=>{if(!CLOUD.confirmDel){CLOUD.confirmDel=true;render();return}CLOUD.confirmDel=false;try{await docRef(CLOUD.user.uid).delete();delete S.cloudUid;saveLocal();await fbAuth.signOut();toast("Đã xóa dữ liệu trên tài khoản và đăng xuất")}catch(e){toast("Chưa xóa được, hãy thử lại.")}render()},
  wipe:()=>{if(!V.confirmWipe){V.confirmWipe=true;render();return}try{localStorage.removeItem(KEY)}catch(e){}S=blank();V={view:"welcome",prev:[],sv:null,wk:0,jl:null,dtab:"secret",res:null,opener:0,confirmWipe:false,draft:{}};render();toast("Đã xóa toàn bộ dữ liệu")}
 };
 // thưởng ngoài hành trình (khoảnh khắc) dùng sổ riêng
@@ -1365,6 +1459,7 @@ document.addEventListener("change",e=>{
 const h=(location.hash||"").slice(1);
 if(S.onb&&NAV.some(n=>n[0]===h))V.view=h;
 render();
+cloudInit();
 })();
 </script>
 </body>
